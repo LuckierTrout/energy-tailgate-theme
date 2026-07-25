@@ -1,0 +1,35 @@
+{% if blog.announcement != blank %}
+  <div class="announcement">
+    {{blog.announcement}}
+  </div>
+{% endif %}
+
+{% for episode in episodes %}
+  <article class="post card">
+    <header>
+      <div class="post-eyebrow">
+        {% if episode.subtitle != blank %}
+          <span class="eyebrow-tag">{{episode.subtitle}}</span>
+        {% endif %}
+        <time class="post-date">{{episode.published_at | date: "%B %d, %Y"}}</time>
+      </div>
+      <h2 class="post-heading">
+        <a href="{{episode.url}}">{{episode.title}}</a>
+      </h2>
+    </header>
+    <div class="post-media-player">
+      {{episode.player}}
+    </div>
+    <div class="post-description">
+      {{episode.description}}
+    </div>
+    <div class="post-actions">
+      <a class="read-more" href="{{episode.url}}">{{'show_notes' | t}} &rarr;</a>
+    </div>
+  </article>
+{% endfor %}
+
+<div class="pagination">
+  {{ pagination.previous_page }}
+  {{ pagination.next_page }}
+</div>

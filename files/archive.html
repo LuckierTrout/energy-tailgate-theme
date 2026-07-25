@@ -1,0 +1,20 @@
+<div class="card">
+  <h1 class="page-heading">{{'episode_archive' | t}}</h1>
+
+  <ul class="archive">
+    {% for episode in episodes %}
+      <li class="archive-item">
+        <time class="post-date">{{episode.published_at | date: "%B %d, %Y"}}</time>
+        <h2 class="archive-title">
+          <a href="{{episode.url}}" title="{{episode.title}}">{{episode.title}}</a>
+        </h2>
+        <p class="archive-excerpt">{{episode.description | strip_html | truncate: 200}}</p>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <div class="pagination">
+    {{ pagination.previous_page }}
+    {{ pagination.next_page }}
+  </div>
+</div>

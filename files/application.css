@@ -1,0 +1,467 @@
+/* ==========================================================================
+   The Energy Tailgate — Chevron-branded Podigee blog theme
+   Bold Gotham-style type, Chevron blue & navy, clean white layout.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  --navy: #0B2D71;
+  --blue: #0066B2;
+  --light-blue: #009DD9;
+  --red: #E21836;
+  --ink: #1A1A1A;
+  --body-text: #3B3B3B;
+  --muted: #6E6E6E;
+  --bg: #FFFFFF;
+  --panel: #F4F4F4;
+  --border: #E4E4E4;
+  --radius: 10px;
+  --head: "Montserrat", "Gotham", "Helvetica Neue", Arial, sans-serif;
+  --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+/* Reset ------------------------------------------------------------------ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--body-text);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; height: auto; border: 0; }
+
+iframe { max-width: 100%; }
+
+/* Links ------------------------------------------------------------------ */
+
+a, a:visited {
+  color: var(--blue);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+a:hover {
+  color: var(--navy);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Structure --------------------------------------------------------------- */
+
+.page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Hero banner --------------------------------------------------------------- */
+
+.hero-banner img {
+  display: block;
+  width: 100%;
+  max-height: 340px;
+  object-fit: cover;
+}
+
+/* Header ------------------------------------------------------------------ */
+
+.site-header {
+  padding: 52px 0 26px;
+  text-align: center;
+}
+
+.site-cover {
+  display: inline-block;
+}
+
+.site-cover img {
+  width: 120px;
+  height: 120px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(11, 45, 113, 0.18);
+  display: block;
+  margin: 0 auto 26px;
+}
+
+.site-title {
+  font-family: var(--head);
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  margin: 0 0 12px;
+  text-transform: none;
+}
+
+.site-title a, .site-title a:visited {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.site-title a:hover { color: var(--blue); text-decoration: none; }
+
+.site-subtitle {
+  color: var(--muted);
+  font-size: 1.08rem;
+  margin: 0 auto 6px;
+  max-width: 36em;
+}
+
+.site-nav {
+  margin-top: 28px;
+  padding: 18px 0;
+  border-top: 3px solid var(--navy);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: center;
+  gap: 34px;
+}
+
+.site-nav a, .site-nav a:visited {
+  font-family: var(--head);
+  color: var(--navy);
+  font-size: 0.84rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.site-nav a:hover {
+  color: var(--blue);
+  text-decoration: none;
+  border-bottom: 3px solid var(--red);
+  padding-bottom: 4px;
+}
+
+/* Announcement ------------------------------------------------------------ */
+
+.announcement {
+  background: #EAF4FB;
+  border-left: 4px solid var(--blue);
+  border-radius: 4px;
+  padding: 14px 20px;
+  margin: 28px 0;
+  font-size: 0.95rem;
+}
+
+/* Cards / posts ------------------------------------------------------------ */
+
+.site-main { padding-top: 30px; }
+
+.card {
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0 42px;
+  margin-bottom: 30px;
+  word-wrap: break-word;
+}
+
+.post-eyebrow {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.eyebrow-tag {
+  font-family: var(--head);
+  color: var(--blue);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.post-date {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.post-heading {
+  font-family: var(--head);
+  color: var(--navy);
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+  margin: 0 0 14px;
+}
+
+.post-single .post-heading { font-size: 2.4rem; }
+
+.post-heading a, .post-heading a:visited { color: var(--navy); }
+
+.post-heading a:hover { color: var(--blue); text-decoration: none; }
+
+.post-media-player {
+  margin: 24px 0;
+}
+
+.post-description,
+.post-show-notes {
+  font-size: 1rem;
+}
+
+.post-description p:first-child { margin-top: 0; }
+
+.post-show-notes {
+  background: var(--panel);
+  border-radius: var(--radius);
+  padding: 26px 30px;
+  margin-top: 24px;
+}
+
+.post-show-notes p:first-child, .post-show-notes h1:first-child,
+.post-show-notes h2:first-child, .post-show-notes h3:first-child { margin-top: 0; }
+
+.post-actions {
+  margin-top: 20px;
+}
+
+.read-more, .read-more:visited {
+  display: inline-block;
+  font-family: var(--head);
+  background: var(--blue);
+  color: #FFFFFF;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 10px 24px;
+}
+
+.read-more:hover {
+  background: var(--navy);
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+.post-downloads {
+  margin: 14px 0;
+  font-size: 0.9rem;
+}
+
+.post-transcript {
+  margin: 14px 0;
+  font-size: 0.95rem;
+}
+
+.post-social-media {
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+
+/* Headings inside content -------------------------------------------------- */
+
+h1, h2, h3, h4 {
+  font-family: var(--head);
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
+.page-heading {
+  font-family: var(--head);
+  color: var(--navy);
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin: 6px 0 22px;
+}
+
+.card h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 30px 0 10px;
+}
+
+/* Archive ------------------------------------------------------------------ */
+
+.archive {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.archive-item {
+  padding: 24px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.archive-item:last-child { border-bottom: none; }
+
+.archive-title {
+  font-family: var(--head);
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 4px 0 8px;
+}
+
+.archive-title a, .archive-title a:visited { color: var(--navy); }
+
+.archive-title a:hover { color: var(--blue); text-decoration: none; }
+
+.archive-excerpt {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* Lists -------------------------------------------------------------------- */
+
+.feeds, .follow {
+  list-style: none;
+  margin: 8px 0;
+  padding: 0;
+}
+
+.feeds li, .follow li {
+  margin: 4px 0;
+}
+
+/* Comments ----------------------------------------------------------------- */
+
+.comments {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.comments h3 { margin-top: 0; color: var(--navy); }
+
+.comment {
+  display: flex;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.comment img {
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+}
+
+.comment-meta {
+  font-size: 0.88rem;
+  margin-bottom: 4px;
+}
+
+.comment-meta small { color: var(--muted); margin-left: 8px; }
+
+.comment-text { font-size: 0.97rem; }
+
+.comments form { margin-top: 20px; }
+
+.comments input[type="text"],
+.comments input[type="email"],
+.comments input[type="url"],
+.comments textarea {
+  width: 100%;
+  background: #FFFFFF;
+  border: 1px solid #C9C9C9;
+  border-radius: 6px;
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  color: var(--body-text);
+  padding: 10px 12px;
+  margin: 6px 0 12px;
+}
+
+.comments input:focus,
+.comments textarea:focus {
+  outline: none;
+  border-color: var(--blue);
+}
+
+/* Buttons ------------------------------------------------------------------ */
+
+button,
+input[type="submit"],
+.btn {
+  font-family: var(--head);
+  background: var(--blue);
+  border: none;
+  border-radius: 999px;
+  color: #FFFFFF;
+  cursor: pointer;
+  font-size: 0.92rem;
+  font-weight: 700;
+  padding: 11px 26px;
+  transition: background 0.15s ease;
+}
+
+button:hover,
+input[type="submit"]:hover,
+.btn:hover {
+  background: var(--navy);
+}
+
+/* Pagination ---------------------------------------------------------------- */
+
+.pagination {
+  overflow: hidden;
+  margin: 6px 0 36px;
+  font-family: var(--head);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.pagination_next_link { float: right; }
+.pagination_previous_link { float: left; }
+
+/* Legal pages ---------------------------------------------------------------- */
+
+.legal-content { font-size: 0.97rem; }
+
+/* Footer ---------------------------------------------------------------------- */
+
+.site-footer {
+  border-top: 3px solid var(--navy);
+  margin-top: 30px;
+  padding: 32px 0 52px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.footer-subscribe { margin-bottom: 16px; }
+
+.footer-subscribe .feeds {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+}
+
+.copyright { margin: 10px 0 4px; }
+
+.powered-by { margin: 4px 0 0; }
+
+/* Responsive -------------------------------------------------------------------- */
+
+@media (max-width: 600px) {
+  body { font-size: 16px; }
+
+  .site-header { padding-top: 38px; }
+
+  .site-title { font-size: 2.1rem; }
+
+  .site-nav { gap: 18px; }
+
+  .post-heading { font-size: 1.55rem; }
+
+  .post-single .post-heading { font-size: 1.75rem; }
+
+  .post-show-notes { padding: 20px 18px; }
+}

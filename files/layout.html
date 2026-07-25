@@ -1,0 +1,51 @@
+{% if blog.header_image != blank %}
+  <div class="hero-banner">
+    <img alt="{{podcast.title}}" src="{{blog.header_image}}">
+  </div>
+{% endif %}
+<div class="page">
+  <header class="site-header">
+    {% if podcast.cover_image_url != blank %}
+      <a href="{{blog.links.home}}" class="site-cover">
+        <img alt="{{podcast.title}}" src="{{podcast.cover_image_url}}">
+      </a>
+    {% endif %}
+    <h1 class="site-title">
+      <a href="{{blog.links.home}}">{{podcast.title}}</a>
+    </h1>
+    {% if podcast.subtitle != blank %}
+      <p class="site-subtitle">{{podcast.subtitle}}</p>
+    {% endif %}
+    <nav class="site-nav">
+      <a href="{{blog.links.home}}">{{'home' | t}}</a>
+      <a href="{{blog.links.archive}}">{{'archive' | t}}</a>
+      <a href="{{blog.links.about}}">{{'about' | t}}</a>
+    </nav>
+  </header>
+
+  <main class="site-main">
+    {{page_content}}
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-subscribe">
+      {% if podcast.subscribe_button_data.configuration.enabled %}
+        {{podcast.subscribe_button}}
+      {% else %}
+        <ul class="feeds">
+          <li><a href="{{podcast.feeds.mp3}}" rel="alternate">MP3 Feed</a></li>
+          <li><a href="{{podcast.feeds.aac}}" rel="alternate">AAC Feed</a></li>
+        </ul>
+      {% endif %}
+    </div>
+    {% if podcast.copyright %}
+      <p class="copyright">{{podcast.copyright}}</p>
+    {% endif %}
+    {% if blog.show_podigee_banner %}
+      <p class="powered-by">
+        Published with
+        <a href="https://www.podigee.com/?utm_source=podigee-website&utm_medium=banner&utm_content={{podcast.slug}}&utm_campaign=blog-banner" title="Podigee - The Podcast Publishing Platform">Podigee</a>
+      </p>
+    {% endif %}
+  </footer>
+</div>

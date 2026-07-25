@@ -1,0 +1,38 @@
+<div class="card">
+  <h1 class="page-heading">{{'about' | t}}</h1>
+
+  <div class="about-description">
+    {{podcast.description}}
+  </div>
+
+  {% if podcast.authors != blank %}
+    <h2>{{'authors' | t}}</h2>
+    <p>{{podcast.authors}}</p>
+  {% endif %}
+
+  <h2>{{'subscribe' | t}}</h2>
+
+  {% if podcast.subscribe_button_data.configuration.enabled %}
+    {{podcast.subscribe_button}}
+  {% else %}
+    <ul class="feeds">
+      <li><a href="{{podcast.feeds.mp3}}" rel="alternate">MP3 Feed</a></li>
+      <li><a href="{{podcast.feeds.aac}}" rel="alternate">AAC / MP4 Feed</a></li>
+      <li><a href="{{podcast.feeds.vorbis}}" rel="alternate">Vorbis / OGG Feed</a></li>
+      <li><a href="{{podcast.feeds.opus}}" rel="alternate">Opus Feed</a></li>
+    </ul>
+  {% endif %}
+
+  {% assign connections = podcast.connections %}
+  {% if connections.twitter != blank or connections.facebook != blank %}
+    <h2>{{'follow_us' | t}}</h2>
+    <ul class="follow">
+      {% if connections.twitter != blank %}
+        <li><a href="https://twitter.com/{{connections.twitter}}">@{{connections.twitter}}</a></li>
+      {% endif %}
+      {% if connections.facebook != blank %}
+        <li><a href="https://www.facebook.com/{{connections.facebook}}">facebook.com/{{connections.facebook_name}}</a></li>
+      {% endif %}
+    </ul>
+  {% endif %}
+</div>

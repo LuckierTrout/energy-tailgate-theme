@@ -1,0 +1,58 @@
+<article class="post card post-single">
+  <header>
+    <div class="post-eyebrow">
+      {% if episode.subtitle != blank %}
+        <span class="eyebrow-tag">{{episode.subtitle}}</span>
+      {% endif %}
+      <time class="post-date">{{episode.published_at | date: "%B %d, %Y"}}</time>
+    </div>
+    <h1 class="post-heading">{{episode.title}}</h1>
+  </header>
+
+  <div class="post-media-player">
+    {{episode.player}}
+  </div>
+
+  <div class="post-downloads">
+    {{episode.downloads}}
+  </div>
+
+  {% if episode.transcript %}
+    <div class="post-transcript">
+      <a href="{{episode.url}}/transcript">{{'read_transcript' | t}}</a>
+    </div>
+  {% endif %}
+
+  <div class="post-show-notes">
+    {% if episode.show_notes != blank %}
+      {{episode.show_notes}}
+    {% else %}
+      {{episode.description}}
+    {% endif %}
+  </div>
+
+  <div class="post-social-media">
+    {{episode.social_links}}
+  </div>
+
+  {% if blog.show_comments %}
+    <div class="comments">
+      <h3>{{'comments' | t}}</h3>
+      {% for comment in comments %}
+        <div class="comment">
+          {{comment.image}}
+          <div class="comment-body">
+            <div class="comment-meta">
+              <strong>{{comment.name}}</strong>
+              <small>{{comment.created_at | date: "%B %d, %Y"}}</small>
+            </div>
+            <div class="comment-text">
+              {{comment.text}}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+      {{comment_form}}
+    </div>
+  {% endif %}
+</article>
