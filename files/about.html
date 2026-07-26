@@ -1,38 +1,64 @@
-<div class="card">
-  <h1 class="page-heading">{{'about' | t}}</h1>
+<div data-etg-about>
 
-  <div class="about-description">
-    {{podcast.description}}
+<div class="etg-pagehero">
+  <div class="etg-pagehero__inner">
+    <div class="etg-eyebrow etg-eyebrow--reverse">About the show</div>
+    <h1 class="etg-pagehero__title">Straight talk with the people closest to the work.</h1>
+    <p class="etg-pagehero__lede">Welcome to {{podcast.title}}, a podcast from Chevron hosted by race car driver, stunt driver and TV host Tanner Foust.</p>
   </div>
+</div>
 
-  {% if podcast.authors != blank %}
-    <h2>{{'authors' | t}}</h2>
-    <p>{{podcast.authors}}</p>
-  {% endif %}
+<section class="etg-about">
+  <div class="etg-about__main">
+    <h2>The premise is simple</h2>
+    {% if podcast.description != blank %}
+      {{podcast.description}}
+    {% else %}
+      <p>Each episode takes place on the tailgate of a pickup truck, where guests join Tanner for real conversations about the energy that powers everyday life: how we use it, where it comes from and where it's headed.</p>
+      <p>No jargon. No lectures. Just straight talk with the people closest to the work, sharing stories and insights &mdash; from the chairman and CEO to the engineers in the field.</p>
+      <p>New episodes are on YouTube and all major podcast platforms.</p>
+    {% endif %}
+    <div class="etg-about__actions">
+      <a class="etg-btn" data-link="archiveUrl" href="{{blog.links.archive}}">Browse episodes</a>
+      <button class="etg-textlink" data-menu-toggle="listen" style="background:none;border:none;cursor:pointer;padding:0">Where to listen
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></button>
+    </div>
+  </div>
+  <div class="etg-host">
+    <div class="etg-host__photo etg-host__photo--placeholder" data-host-photo>Host portrait &mdash; Tanner Foust</div>
+    <div class="etg-eyebrow etg-eyebrow--sm">Your host</div>
+    <div class="etg-host__name">Tanner Foust</div>
+    <p>Tanner Foust is a champion race car driver, stunt driver and television host, known for Top Gear USA and stunt driving in Ford v Ferrari and John Wick: Chapter 4. With a degree in molecular, cellular and developmental biology from CU Boulder, he has long been fascinated by science, fuels and their real-world applications.</p>
+  </div>
+</section>
 
-  <h2>{{'subscribe' | t}}</h2>
+<section class="etg-threeup">
+  <div class="etg-threeup__inner">
+    <div class="etg-threeup__item">
+      <div class="etg-threeup__title">One truck</div>
+      <p>Every conversation happens on the tailgate &mdash; not in a boardroom, not behind a desk.</p>
+    </div>
+    <div class="etg-threeup__item">
+      <div class="etg-threeup__title">One guest</div>
+      <p>The people closest to the work, from the chairman and CEO to the engineers unlocking new resources.</p>
+    </div>
+    <div class="etg-threeup__item">
+      <div class="etg-threeup__title">Straight talk</div>
+      <p>Plain answers about how energy is produced, moved and used &mdash; and where it goes next.</p>
+    </div>
+  </div>
+</section>
 
-  {% if podcast.subscribe_button_data.configuration.enabled %}
-    {{podcast.subscribe_button}}
-  {% else %}
-    <ul class="feeds">
-      <li><a href="{{podcast.feeds.mp3}}" rel="alternate">MP3 Feed</a></li>
-      <li><a href="{{podcast.feeds.aac}}" rel="alternate">AAC / MP4 Feed</a></li>
-      <li><a href="{{podcast.feeds.vorbis}}" rel="alternate">Vorbis / OGG Feed</a></li>
-      <li><a href="{{podcast.feeds.opus}}" rel="alternate">Opus Feed</a></li>
-    </ul>
-  {% endif %}
+<section class="etg-ctaband">
+  <div class="etg-ctaband__inner">
+    <h2 class="etg-ctaband__title">Never miss an episode</h2>
+    <p class="etg-ctaband__lede">New episodes on YouTube and all major podcast platforms.</p>
+    {% if podcast.subscribe_button_data.configuration.enabled %}
+      {{podcast.subscribe_button}}
+    {% else %}
+      <a class="etg-btn" data-link="archiveUrl" href="{{blog.links.archive}}">See all episodes</a>
+    {% endif %}
+  </div>
+</section>
 
-  {% assign connections = podcast.connections %}
-  {% if connections.twitter != blank or connections.facebook != blank %}
-    <h2>{{'follow_us' | t}}</h2>
-    <ul class="follow">
-      {% if connections.twitter != blank %}
-        <li><a href="https://twitter.com/{{connections.twitter}}">@{{connections.twitter}}</a></li>
-      {% endif %}
-      {% if connections.facebook != blank %}
-        <li><a href="https://www.facebook.com/{{connections.facebook}}">facebook.com/{{connections.facebook_name}}</a></li>
-      {% endif %}
-    </ul>
-  {% endif %}
 </div>

@@ -1,58 +1,96 @@
-<article class="post card post-single">
-  <header>
-    <div class="post-eyebrow">
-      {% if episode.subtitle != blank %}
-        <span class="eyebrow-tag">{{episode.subtitle}}</span>
-      {% endif %}
-      <time class="post-date">{{episode.published_at | date: "%B %d, %Y"}}</time>
-    </div>
-    <h1 class="post-heading">{{episode.title}}</h1>
-  </header>
+<article data-etg-episode>
+{% capture epnum %}{{episode.number}}{% endcapture %}
 
-  <div class="post-media-player">
-    {{episode.player}}
-  </div>
-
-  <div class="post-downloads">
-    {{episode.downloads}}
-  </div>
-
-  {% if episode.transcript %}
-    <div class="post-transcript">
-      <a href="{{episode.url}}/transcript">{{'read_transcript' | t}}</a>
-    </div>
-  {% endif %}
-
-  <div class="post-show-notes">
-    {% if episode.show_notes != blank %}
-      {{episode.show_notes}}
-    {% else %}
-      {{episode.description}}
+<div class="etg-titleband">
+  <nav class="etg-breadcrumb" aria-label="Breadcrumb">
+    <a data-link="homeUrl" href="{{blog.links.home}}">Home</a>
+    <span class="etg-breadcrumb__sep">/</span>
+    <a data-link="archiveUrl" href="{{blog.links.archive}}">Episodes</a>
+    <span class="etg-breadcrumb__sep">/</span>
+    <span class="etg-breadcrumb__here">{% if episode.number %}Episode {% if epnum.size < 2 %}0{% endif %}{{epnum}}{% else %}{{episode.title | truncate: 40}}{% endif %}</span>
+  </nav>
+  <div class="etg-titleband__inner">
+    <div class="etg-eyebrow etg-eyebrow--reverse">{% if episode.number %}Episode {% if epnum.size < 2 %}0{% endif %}{{epnum}} &middot; {% endif %}{{episode.published_at | date: "%B %Y"}}</div>
+    <h1 class="etg-titleband__title">{{episode.title}}</h1>
+    {% if episode.subtitle != blank %}
+      <div class="etg-titleband__sub">{{episode.subtitle}}</div>
     {% endif %}
   </div>
+</div>
 
-  <div class="post-social-media">
-    {{episode.social_links}}
+<div class="etg-episode">
+  <div class="etg-episode__main">
+    <div class="etg-episode__player">
+      {{episode.player}}
+    </div>
+    <div class="etg-episode__about">
+      <h2>About this episode</h2>
+      {% if episode.show_notes != blank %}
+        {{episode.show_notes}}
+      {% else %}
+        {{episode.description}}
+      {% endif %}
+      {% if episode.transcript %}
+        <div class="etg-transcript">
+          <a class="etg-textlink" href="{{episode.url}}/transcript">Read the transcript
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+        </div>
+      {% endif %}
+    </div>
   </div>
 
-  {% if blog.show_comments %}
-    <div class="comments">
-      <h3>{{'comments' | t}}</h3>
-      {% for comment in comments %}
-        <div class="comment">
-          {{comment.image}}
-          <div class="comment-body">
-            <div class="comment-meta">
-              <strong>{{comment.name}}</strong>
-              <small>{{comment.created_at | date: "%B %d, %Y"}}</small>
-            </div>
-            <div class="comment-text">
-              {{comment.text}}
-            </div>
-          </div>
-        </div>
-      {% endfor %}
-      {{comment_form}}
+  <aside class="etg-aside">
+    <div class="etg-card etg-card--raised">
+      <span class="etg-eyebrow">Listen on</span>
+      <div class="etg-card__stack">
+        <a class="etg-platform" href="https://www.youtube.com/chevron"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"></path><path d="m10 15 5-3-5-3z"></path></svg>YouTube</a>
+        <a class="etg-platform" href="https://open.spotify.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 10v3"></path><path d="M6 6v11"></path><path d="M10 3v18"></path><path d="M14 8v7"></path><path d="M18 5v13"></path><path d="M22 10v3"></path></svg>Spotify</a>
+        <a class="etg-platform" href="https://podcasts.apple.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="22"></line></svg>Apple Podcasts</a>
+      </div>
     </div>
-  {% endif %}
+
+    <div class="etg-card">
+      <span class="etg-eyebrow">Share this episode</span>
+      <div class="etg-share">
+        <a data-share="x" href="#" target="_blank" rel="noopener">X</a>
+        <a data-share="linkedin" href="#" target="_blank" rel="noopener">LinkedIn</a>
+        <a data-share="facebook" href="#" target="_blank" rel="noopener">Facebook</a>
+        <button data-copy-link="{{episode.url}}">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+          <span data-copy-label>Copy link</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="etg-card" data-more-episodes hidden>
+      <span class="etg-eyebrow">More episodes</span>
+      <div class="etg-moreeps" data-more-episodes-list></div>
+      <a class="etg-textlink etg-moreeps__all" data-link="archiveUrl" href="{{blog.links.archive}}">All episodes
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+    </div>
+  </aside>
+</div>
+
+<div class="etg-upnext">
+  <div class="etg-upnext__inner">
+    <a class="etg-textlink" data-link="archiveUrl" href="{{blog.links.archive}}">Browse all episodes
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+  </div>
+</div>
+
+<script>
+(function () {
+  var url = encodeURIComponent('{{episode.url}}');
+  var title = encodeURIComponent('{{episode.title | escape}} \u2014 The Energy Tailgate');
+  var map = {
+    x: 'https://twitter.com/intent/tweet?url=' + url + '&text=' + title,
+    linkedin: 'https://www.linkedin.com/sharing/share-offsite/?url=' + url,
+    facebook: 'https://www.facebook.com/sharer/sharer.php?u=' + url
+  };
+  document.querySelectorAll('[data-share]').forEach(function (a) {
+    a.href = map[a.getAttribute('data-share')] || '#';
+  });
+})();
+</script>
+
 </article>

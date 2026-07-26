@@ -1,51 +1,548 @@
-{% if blog.header_image != blank %}
-  <div class="hero-banner">
-    <img alt="{{podcast.title}}" src="{{blog.header_image}}">
-  </div>
-{% endif %}
-<div class="page">
-  <header class="site-header">
-    {% if podcast.cover_image_url != blank %}
-      <a href="{{blog.links.home}}" class="site-cover">
-        <img alt="{{podcast.title}}" src="{{podcast.cover_image_url}}">
-      </a>
-    {% endif %}
-    <h1 class="site-title">
-      <a href="{{blog.links.home}}">{{podcast.title}}</a>
-    </h1>
-    {% if podcast.subtitle != blank %}
-      <p class="site-subtitle">{{podcast.subtitle}}</p>
-    {% endif %}
-    <nav class="site-nav">
-      <a href="{{blog.links.home}}">{{'home' | t}}</a>
-      <a href="{{blog.links.archive}}">{{'archive' | t}}</a>
-      <a href="{{blog.links.about}}">{{'about' | t}}</a>
-    </nav>
-  </header>
-
-  <main class="site-main">
-    {{page_content}}
-  </main>
-
-  <footer class="site-footer">
-    <div class="footer-subscribe">
-      {% if podcast.subscribe_button_data.configuration.enabled %}
-        {{podcast.subscribe_button}}
-      {% else %}
-        <ul class="feeds">
-          <li><a href="{{podcast.feeds.mp3}}" rel="alternate">MP3 Feed</a></li>
-          <li><a href="{{podcast.feeds.aac}}" rel="alternate">AAC Feed</a></li>
-        </ul>
-      {% endif %}
+<header class="etg-header">
+  <div class="etg-utility">
+    <span class="etg-utility__brand">A podcast from Chevron</span>
+    <div class="etg-utility__links">
+      <a href="https://www.chevron.com">chevron.com</a>
+      <a href="https://www.chevron.com/newsroom">Newsroom</a>
+      <span class="etg-utility__sep">|</span>
+      <span>Global &middot; English</span>
     </div>
-    {% if podcast.copyright %}
-      <p class="copyright">{{podcast.copyright}}</p>
-    {% endif %}
+  </div>
+
+  <div class="etg-nav">
+    <a href="{{blog.links.home}}" class="etg-lockup" aria-label="{{podcast.title}} — home">
+      <svg class="etg-lockup__logo" viewBox="0 0 340.29083 379.66412" role="img" aria-label="Chevron">
+        <defs>
+          <linearGradient id="etg-ub" x1="1" y1=".5" x2="0" y2="-.5"><stop offset="0" stop-color="rgb(6,84,155)"></stop><stop offset=".55" stop-color="rgb(47,161,211)"></stop><stop offset=".9" stop-color="rgb(47,161,211)"></stop></linearGradient>
+          <linearGradient id="etg-lb" x1="0" y1=".6" x2="1" y2="-.75"><stop offset="0" stop-color="rgb(19,113,177)"></stop><stop offset=".05" stop-color="rgb(47,161,211)"></stop><stop offset=".45" stop-color="rgb(47,161,211)"></stop><stop offset=".6" stop-color="rgb(6,86,156)"></stop></linearGradient>
+          <linearGradient id="etg-ur" x1="1" y1=".5" x2="0" y2="-.1"><stop offset="0" stop-color="rgb(157,26,54)"></stop><stop offset=".4" stop-color="rgb(157,26,54)"></stop><stop offset=".6" stop-color="rgb(230,25,47)"></stop></linearGradient>
+          <linearGradient id="etg-lr" x1="0" y1=".6" x2="1" y2="-.75"><stop offset="0" stop-color="rgb(162,28,56)"></stop><stop offset=".13" stop-color="rgb(230,25,47)"></stop><stop offset=".45" stop-color="rgb(230,25,47)"></stop><stop offset=".6" stop-color="rgb(167,28,55)"></stop></linearGradient>
+        </defs>
+        <g transform="translate(-39.7899,-39.8076)"><g transform="scale(1.043997,1.043997)">
+          <g fill="#0056a2">
+            <path d="M 85.154,100.157 C 82.687,101.361 77.705,102.844 70.316,102.844 C 49.855,102.844 38.113,88.771 38.113,70.816 C 38.113,49.441 53.075,38.13 71.675,38.13 C 78.886,38.13 82.696,39.51 85.15,40.814 L 82.877,53.597 C 80.145,52.387 77.245,51.285 72.237,51.285 C 63.379,51.285 53.983,56.553 53.983,70.58 C 53.983,83.128 61.475,89.765 72.311,89.765 C 76.603,89.765 79.516,88.923 82.878,87.38 L 85.154,100.157 z "></path>
+            <path d="M 119.129,53.982 C 113.617,53.982 108.283,56.481 105.567,60.495 L 105.4,60.495 L 105.4,38.354 L 91.535,43.154 L 91.535,100.919 L 105.4,100.919 L 105.4,73.936 C 105.4,70.04 107.933,65.849 112.791,65.849 C 117.988,65.849 119.99,69.94 119.99,75.891 L 119.99,100.92 L 133.867,100.92 L 133.867,73.977 C 133.867,60.223 127.968,53.982 119.129,53.982 z "></path>
+            <path d="M 154.783,82.696 C 155.293,88.547 160.146,91.656 167.645,91.723 C 172.164,91.758 177.418,90.444 180.918,88.382 L 183.01,99.173 C 177.742,101.819 171.724,102.844 165.598,102.844 C 149.094,102.844 140.248,92.918 140.248,77.711 C 140.248,63.001 149.76,53.509 164.014,53.509 C 178.704,53.509 185.289,64.325 185.289,77.877 C 185.289,79.305 185.113,81.631 184.955,82.696 L 154.783,82.696 M 171.441,72.829 C 171.441,69.431 169.783,63.489 163.364,63.489 C 157.736,63.489 155.082,68.334 154.688,72.829 L 171.441,72.829 z "></path>
+            <polygon points="201.587,100.919 186.267,55.439 201.564,55.439 209.887,87.61 210.167,87.61 218.491,55.439 233.794,55.439 218.475,100.919 201.587,100.919 "></polygon>
+            <path d="M 237.725,70.396 C 237.725,63.705 237.515,59.34 237.23,55.438 L 250.292,55.438 L 250.688,63.892 L 251.039,63.892 C 253.325,57.201 257.712,54.659 262.224,54.403 C 264.369,54.278 265.53,54.43 266.858,54.687 L 266.858,67.985 C 265.587,67.736 263.065,67.443 261.292,67.606 C 255.956,68.097 252.727,71.978 251.821,76.446 C 251.639,77.372 251.545,78.4 251.545,79.603 L 251.545,100.918 L 237.73,100.918 L 237.73,70.396 L 237.725,70.396 z "></path>
+            <path d="M 315.584,78.176 C 315.584,93.082 306.603,102.843 292.05,102.843 C 277.494,102.843 268.507,93.082 268.507,78.176 C 268.507,63.268 277.494,53.508 292.05,53.508 C 306.603,53.508 315.584,63.269 315.584,78.176 M 301.209,78.176 C 301.209,70.775 298.665,64.333 292.05,64.333 C 285.426,64.333 282.895,70.774 282.895,78.176 C 282.895,85.584 285.426,92.016 292.05,92.016 C 298.667,92.016 301.209,85.584 301.209,78.176 z "></path>
+            <path d="M 321.75,69.939 C 321.75,64.263 321.542,59.417 321.249,55.439 L 334.311,55.439 L 334.61,61.802 L 334.89,61.802 C 336.699,58.843 341.486,53.982 348.955,53.982 C 358.096,53.982 364.063,60.223 364.063,73.611 L 364.063,100.92 L 350.21,100.92 L 350.21,75.701 C 350.21,69.849 348.202,65.848 343.189,65.848 C 339.345,65.848 336.958,68.551 336.072,71.142 C 335.744,72.091 335.61,73.38 335.61,74.682 L 335.61,100.919 L 321.75,100.919 L 321.75,69.939 L 321.75,69.939 z "></path>
+          </g>
+          <polygon points="38.608,221.484 38.608,113.014 201.354,167.252 38.608,221.484 " fill="url(#etg-ub)"></polygon>
+          <polygon points="38.649,221.492 201.354,275.724 364.05,221.492 364.05,113.027 201.354,167.252 38.649,221.492 " fill="url(#etg-lb)"></polygon>
+          <polygon points="38.618,347.568 38.604,239.063 201.339,293.298 38.618,347.568 " fill="url(#etg-ur)"></polygon>
+          <polygon points="364.058,239.063 201.308,293.281 38.636,347.548 201.339,401.794 364.058,347.531 364.058,239.063 " fill="url(#etg-lr)"></polygon>
+        </g></g>
+      </svg>
+      <span class="etg-lockup__rule"></span>
+      <span class="etg-lockup__words" aria-hidden="true">
+        <span class="etg-lockup__eyebrow">THE ENERGY</span>
+        <span class="etg-lockup__name">TAILGATE</span>
+      </span>
+      <span class="sr-only">{{podcast.title}}</span>
+    </a>
+
+    <nav class="etg-nav__links" aria-label="Primary">
+      <button class="etg-nav__link" data-menu-toggle="episodes" data-nav="episodes" aria-expanded="false">Episodes
+        <svg class="etg-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </button>
+      <button class="etg-nav__link" data-menu-toggle="listen" aria-expanded="false">Where to Listen
+        <svg class="etg-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </button>
+      <a class="etg-nav__link" data-nav="about" href="{{blog.links.about}}">About</a>
+    </nav>
+
+    <div class="etg-nav__right">
+      <button class="etg-nav__search" data-menu-toggle="search" aria-label="Search" aria-expanded="false">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      </button>
+      <button class="etg-btn" data-menu-toggle="listen">Subscribe</button>
+    </div>
+  </div>
+
+  <div class="etg-scrim" data-scrim hidden></div>
+
+  <div class="etg-panel" data-menu-panel="episodes" hidden>
+    <div class="etg-menu">
+      <div class="etg-menu__col">
+        <div class="etg-eyebrow">Episodes</div>
+        <a class="etg-menu__item" href="{{blog.links.home}}#latest">
+          <span class="etg-menu__item-title">Latest episode</span>
+          <span class="etg-menu__item-sub" data-latest-title>The most recent conversation from the tailgate</span>
+        </a>
+        <a class="etg-menu__item" href="{{blog.links.archive}}">
+          <span class="etg-menu__item-title">All episodes</span>
+          <span class="etg-menu__item-sub">Browse every episode</span>
+        </a>
+        <a class="etg-menu__item" href="{{blog.links.about}}">
+          <span class="etg-menu__item-title">About the show</span>
+          <span class="etg-menu__item-sub">The premise, the truck, and host Tanner Foust</span>
+        </a>
+      </div>
+      <div class="etg-menu__col etg-menu__col--rule">
+        <div class="etg-eyebrow">By topic</div>
+        <a class="etg-menu__topic" href="{{blog.links.archive}}?topic=Leadership">Leadership</a>
+        <a class="etg-menu__topic" href="{{blog.links.archive}}?topic=Technology%20and%20innovation">Technology and innovation</a>
+        <a class="etg-menu__topic" href="{{blog.links.archive}}?topic=Fuels%20and%20products">Fuels and products</a>
+      </div>
+      <div class="etg-menu__col etg-menu__col--rule etg-menu__col--episodes" data-menu-episodes hidden>
+        <div class="etg-eyebrow">Browse episodes</div>
+        <nav class="etg-menu__eplist-wrap" aria-label="Browse episodes">
+          <div class="etg-menu__eplist" data-menu-eplist tabindex="0"></div>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <div class="etg-panel" data-menu-panel="listen" hidden>
+    <div class="etg-listen">
+      <span class="etg-listen__show">
+        {% if podcast.cover_image_url != blank %}
+          <img class="etg-listen__cover" src="{{podcast.cover_image_url}}" alt="{{podcast.title}} cover art">
+        {% endif %}
+        <span class="etg-listen__meta">
+          <span class="etg-eyebrow">Where to listen</span>
+          <span class="etg-listen__sub">{{podcast.title}}{% if podcast.subtitle != blank %} &mdash; {{podcast.subtitle}}{% endif %}</span>
+        </span>
+      </span>
+      <a class="etg-platform" href="https://www.youtube.com/chevron"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"></path><path d="m10 15 5-3-5-3z"></path></svg>YouTube</a>
+      <a class="etg-platform" href="https://open.spotify.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 10v3"></path><path d="M6 6v11"></path><path d="M10 3v18"></path><path d="M14 8v7"></path><path d="M18 5v13"></path><path d="M22 10v3"></path></svg>Spotify</a>
+      <a class="etg-platform" href="https://podcasts.apple.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="22"></line></svg>Apple Podcasts</a>
+      <a class="etg-platform" data-feed-link href="{{podcast.feeds.mp3}}" rel="alternate" target="_blank"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg>RSS feed</a>
+      <span class="etg-listen__feeds">Feeds: MP3 &middot; AAC</span>
+    </div>
+  </div>
+
+  <div class="etg-panel" data-menu-panel="search" hidden>
+    <div class="etg-search">
+      <div class="etg-search__bar">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input class="etg-search__input" data-search-input type="text" placeholder="Search episodes, guests, and topics" aria-label="Search episodes, guests, and topics">
+        <button class="etg-search__clear" data-search-clear hidden>Clear</button>
+        <span class="etg-search__esc">ESC</span>
+      </div>
+      <div class="etg-search__default" data-search-default>
+        <div class="etg-search__deflist">
+          <div class="etg-eyebrow">Browse by topic</div>
+          <a class="etg-search__deflink" href="{{blog.links.archive}}?topic=Leadership">Leadership</a>
+          <a class="etg-search__deflink" href="{{blog.links.archive}}?topic=Technology%20and%20innovation">Technology and innovation</a>
+          <a class="etg-search__deflink" href="{{blog.links.archive}}?topic=Fuels%20and%20products">Fuels and products</a>
+        </div>
+        <div class="etg-search__deflist">
+          <div class="etg-eyebrow">Quick links</div>
+          <a class="etg-search__deflink" href="{{blog.links.archive}}">All episodes</a>
+          <a class="etg-search__deflink" href="{{blog.links.about}}">About the show</a>
+          <button class="etg-search__deflink" data-menu-toggle="listen">Where to listen</button>
+        </div>
+      </div>
+      <div class="etg-search__results" data-search-results hidden></div>
+    </div>
+  </div>
+</header>
+
+<main>
+{{page_content}}
+</main>
+
+<footer class="etg-footer">
+  <div class="etg-footer__inner">
+    <div class="etg-footer__top">
+      <div class="etg-footer__brand">
+        <svg class="etg-footer__logo" viewBox="0 0 340.29083 379.66412" role="img" aria-label="Chevron" fill="#FFFFFF">
+          <g transform="translate(-39.7899,-39.8076)"><g transform="scale(1.043997,1.043997)">
+            <g>
+              <path d="M 85.154,100.157 C 82.687,101.361 77.705,102.844 70.316,102.844 C 49.855,102.844 38.113,88.771 38.113,70.816 C 38.113,49.441 53.075,38.13 71.675,38.13 C 78.886,38.13 82.696,39.51 85.15,40.814 L 82.877,53.597 C 80.145,52.387 77.245,51.285 72.237,51.285 C 63.379,51.285 53.983,56.553 53.983,70.58 C 53.983,83.128 61.475,89.765 72.311,89.765 C 76.603,89.765 79.516,88.923 82.878,87.38 L 85.154,100.157 z "></path>
+              <path d="M 119.129,53.982 C 113.617,53.982 108.283,56.481 105.567,60.495 L 105.4,60.495 L 105.4,38.354 L 91.535,43.154 L 91.535,100.919 L 105.4,100.919 L 105.4,73.936 C 105.4,70.04 107.933,65.849 112.791,65.849 C 117.988,65.849 119.99,69.94 119.99,75.891 L 119.99,100.92 L 133.867,100.92 L 133.867,73.977 C 133.867,60.223 127.968,53.982 119.129,53.982 z "></path>
+              <path d="M 154.783,82.696 C 155.293,88.547 160.146,91.656 167.645,91.723 C 172.164,91.758 177.418,90.444 180.918,88.382 L 183.01,99.173 C 177.742,101.819 171.724,102.844 165.598,102.844 C 149.094,102.844 140.248,92.918 140.248,77.711 C 140.248,63.001 149.76,53.509 164.014,53.509 C 178.704,53.509 185.289,64.325 185.289,77.877 C 185.289,79.305 185.113,81.631 184.955,82.696 L 154.783,82.696 M 171.441,72.829 C 171.441,69.431 169.783,63.489 163.364,63.489 C 157.736,63.489 155.082,68.334 154.688,72.829 L 171.441,72.829 z "></path>
+              <polygon points="201.587,100.919 186.267,55.439 201.564,55.439 209.887,87.61 210.167,87.61 218.491,55.439 233.794,55.439 218.475,100.919 201.587,100.919 "></polygon>
+              <path d="M 237.725,70.396 C 237.725,63.705 237.515,59.34 237.23,55.438 L 250.292,55.438 L 250.688,63.892 L 251.039,63.892 C 253.325,57.201 257.712,54.659 262.224,54.403 C 264.369,54.278 265.53,54.43 266.858,54.687 L 266.858,67.985 C 265.587,67.736 263.065,67.443 261.292,67.606 C 255.956,68.097 252.727,71.978 251.821,76.446 C 251.639,77.372 251.545,78.4 251.545,79.603 L 251.545,100.918 L 237.73,100.918 L 237.73,70.396 L 237.725,70.396 z "></path>
+              <path d="M 315.584,78.176 C 315.584,93.082 306.603,102.843 292.05,102.843 C 277.494,102.843 268.507,93.082 268.507,78.176 C 268.507,63.268 277.494,53.508 292.05,53.508 C 306.603,53.508 315.584,63.269 315.584,78.176 M 301.209,78.176 C 301.209,70.775 298.665,64.333 292.05,64.333 C 285.426,64.333 282.895,70.774 282.895,78.176 C 282.895,85.584 285.426,92.016 292.05,92.016 C 298.667,92.016 301.209,85.584 301.209,78.176 z "></path>
+              <path d="M 321.75,69.939 C 321.75,64.263 321.542,59.417 321.249,55.439 L 334.311,55.439 L 334.61,61.802 L 334.89,61.802 C 336.699,58.843 341.486,53.982 348.955,53.982 C 358.096,53.982 364.063,60.223 364.063,73.611 L 364.063,100.92 L 350.21,100.92 L 350.21,75.701 C 350.21,69.849 348.202,65.848 343.189,65.848 C 339.345,65.848 336.958,68.551 336.072,71.142 C 335.744,72.091 335.61,73.38 335.61,74.682 L 335.61,100.919 L 321.75,100.919 L 321.75,69.939 L 321.75,69.939 z "></path>
+            </g>
+            <polygon points="38.608,221.484 38.608,113.014 201.354,167.252 38.608,221.484 "></polygon>
+            <polygon points="38.649,221.492 201.354,275.724 364.05,221.492 364.05,113.027 201.354,167.252 38.649,221.492 "></polygon>
+            <polygon points="38.618,347.568 38.604,239.063 201.339,293.298 38.618,347.568 "></polygon>
+            <polygon points="364.058,239.063 201.308,293.281 38.636,347.548 201.339,401.794 364.058,347.531 364.058,239.063 "></polygon>
+          </g></g>
+        </svg>
+        <div class="etg-footer__tagline">{{podcast.title}} is a podcast from Chevron, the human energy company.</div>
+      </div>
+      <div class="etg-footer__cols">
+        <div>
+          <div class="etg-footer__heading">The show</div>
+          <div class="etg-footer__links">
+            <a href="{{blog.links.archive}}">Episodes</a>
+            <a href="{{blog.links.about}}">About</a>
+            <a href="#" data-menu-toggle="listen">Where to listen</a>
+          </div>
+        </div>
+        <div>
+          <div class="etg-footer__heading">Chevron</div>
+          <div class="etg-footer__links">
+            <a href="https://www.chevron.com">chevron.com</a>
+            <a href="https://www.chevron.com/newsroom">Newsroom</a>
+          </div>
+        </div>
+        <div>
+          <div class="etg-footer__heading">Follow</div>
+          <div class="etg-footer__links">
+            <a href="https://x.com/Chevron">X</a>
+            <a href="https://www.linkedin.com/company/chevron">LinkedIn</a>
+            <a href="https://www.instagram.com/chevron">Instagram</a>
+            <a href="https://www.youtube.com/chevron">YouTube</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="etg-footer__bottom">
+      <div>{% if podcast.copyright %}{{podcast.copyright}}{% else %}&copy; Chevron Corporation. All rights reserved.{% endif %}</div>
+      <div class="etg-footer__legal">
+        <a href="https://www.chevron.com/privacy">Privacy</a>
+        <a href="https://www.chevron.com/terms-of-use">Terms of use</a>
+        <a href="https://www.chevron.com/site-map">Site map</a>
+      </div>
+    </div>
     {% if blog.show_podigee_banner %}
-      <p class="powered-by">
-        Published with
-        <a href="https://www.podigee.com/?utm_source=podigee-website&utm_medium=banner&utm_content={{podcast.slug}}&utm_campaign=blog-banner" title="Podigee - The Podcast Publishing Platform">Podigee</a>
-      </p>
+      <p class="etg-footer__powered">Published with <a href="https://www.podigee.com/?utm_source=podigee-website&amp;utm_medium=banner&amp;utm_content={{podcast.slug}}&amp;utm_campaign=blog-banner" title="Podigee - The Podcast Publishing Platform">Podigee</a></p>
     {% endif %}
-  </footer>
-</div>
+  </div>
+</footer>
+
+<script>
+window.ETG_CONFIG = {
+  /* podcast.feeds.* is only documented for sidebar.html — fall back to the
+     Podigee blog's stable relative feed path if the variable renders blank here. */
+  feedUrl: '{{podcast.feeds.mp3}}' || '/feed/mp3',
+  homeUrl: '{{blog.links.home}}' || '/',
+  archiveUrl: '{{blog.links.archive}}' || '/archive',
+  aboutUrl: '{{blog.links.about}}' || '/about',
+  topics: ['Leadership', 'Technology and innovation', 'Fuels and products']
+};
+</script>
+<script>
+(function () {
+  'use strict';
+  var CFG = window.ETG_CONFIG;
+  var header = document.querySelector('.etg-header');
+  var scrim = header.querySelector('[data-scrim]');
+  var openName = null;
+
+  /* GA4 hooks: every call is a no-op until gtag.js is installed on the blog. */
+  function track(name, params) { if (typeof window.gtag === 'function') window.gtag('event', name, params || {}); }
+  function debounce(fn, ms) { var t; return function () { clearTimeout(t); t = setTimeout(fn, ms); }; }
+
+  function setMenu(name) {
+    openName = name;
+    header.querySelectorAll('[data-menu-panel]').forEach(function (p) {
+      p.hidden = p.getAttribute('data-menu-panel') !== name;
+    });
+    header.querySelectorAll('[data-menu-toggle]').forEach(function (b) {
+      if (b.hasAttribute('aria-expanded')) b.setAttribute('aria-expanded', String(b.getAttribute('data-menu-toggle') === name));
+    });
+    scrim.hidden = !name;
+    if (name === 'search') {
+      var inp = header.querySelector('[data-search-input]');
+      if (inp) setTimeout(function () { inp.focus(); }, 0);
+    }
+  }
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest('[data-menu-toggle]');
+    if (t) {
+      e.preventDefault();
+      var name = t.getAttribute('data-menu-toggle');
+      setMenu(openName === name ? null : name);
+      return;
+    }
+    if (!e.target.closest('.etg-header')) setMenu(null);
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setMenu(null); });
+  scrim.addEventListener('click', function () { setMenu(null); });
+
+  /* blog.links.* / podcast.feeds.* are only documented for layout.html.
+     Page templates mark cross-page links with data-link / data-feed-link;
+     fill any that Liquid left blank from the layout-rendered config. */
+  document.querySelectorAll('[data-link]').forEach(function (a) {
+    var href = a.getAttribute('href');
+    if (!href || href === '#') a.setAttribute('href', CFG[a.getAttribute('data-link')] || '/');
+  });
+  document.querySelectorAll('[data-feed-link]').forEach(function (a) {
+    var href = a.getAttribute('href');
+    if (!href || href === '#') a.setAttribute('href', CFG.feedUrl);
+  });
+
+  /* Highlight active nav item */
+  var path = location.pathname.replace(/\/$/, '');
+  function markActive(sel, url) {
+    if (!url) return;
+    var u = url.replace(/^https?:\/\/[^/]+/, '').replace(/\/$/, '');
+    if (u && path === u) { var el = header.querySelector(sel); if (el) el.classList.add('is-active'); }
+  }
+  markActive('[data-nav="about"]', CFG.aboutUrl);
+  if (path === (CFG.archiveUrl || '').replace(/^https?:\/\/[^/]+/, '').replace(/\/$/, '') ||
+      document.querySelector('[data-etg-archive]') || document.querySelector('[data-etg-home]') ||
+      document.querySelector('[data-etg-episode]')) {
+    var epLink = header.querySelector('[data-nav="episodes"]');
+    if (epLink && !document.querySelector('[data-etg-about]')) epLink.classList.add('is-active');
+  }
+
+  /* ---- Episode index from the RSS feed (powers search + latest-episode label) ---- */
+  var feedIndex = null, feedPromise = null;
+  function tagText(el, name) {
+    var list = el.getElementsByTagNameNS('*', name);
+    return list.length ? (list[0].textContent || '').trim() : '';
+  }
+  function monthYear(dateStr) {
+    var d = new Date(dateStr);
+    if (isNaN(d)) return '';
+    return d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  }
+  function loadFeed() {
+    if (feedPromise) return feedPromise;
+    feedPromise = fetch(CFG.feedUrl).then(function (r) { return r.text(); }).then(function (xml) {
+      var doc = new DOMParser().parseFromString(xml, 'text/xml');
+      feedIndex = Array.prototype.map.call(doc.querySelectorAll('item'), function (item) {
+        var epNum = tagText(item, 'episode');
+        var date = monthYear(tagText(item, 'pubDate'));
+        var eyebrow = (epNum ? 'Episode ' + (epNum.length < 2 ? '0' + epNum : epNum) + ' \u00B7 ' : '') + date;
+        return {
+          title: tagText(item, 'title'),
+          sub: tagText(item, 'subtitle'),
+          eyebrow: eyebrow,
+          url: tagText(item, 'link'),
+          haystack: (tagText(item, 'title') + ' ' + tagText(item, 'subtitle') + ' ' +
+                     tagText(item, 'description') + ' ' + tagText(item, 'keywords') + ' ' + eyebrow).toLowerCase()
+        };
+      });
+      var latest = feedIndex[0];
+      if (latest) {
+        header.querySelectorAll('[data-latest-title]').forEach(function (el) { el.textContent = latest.title; });
+      }
+      renderMenuEpisodes();
+      renderMoreEpisodes();
+      return feedIndex;
+    }).catch(function () { feedIndex = []; return feedIndex; });
+    return feedPromise;
+  }
+  loadFeed();
+
+  /* ---- Episodes menu: scrollable episode browser (same RSS index as search).
+     The episodes list variable is only documented for index.html, so the menu
+     is fed client-side; the column stays hidden if the feed can't be loaded. ---- */
+  function renderMenuEpisodes() {
+    var col = header.querySelector('[data-menu-episodes]');
+    var list = header.querySelector('[data-menu-eplist]');
+    if (!col || !list) return;
+    if (!feedIndex || !feedIndex.length) { col.hidden = true; return; }
+    var html = '';
+    feedIndex.forEach(function (r) {
+      html += '<a class="etg-menu__ep" href="' + esc(r.url) + '">' +
+        (r.eyebrow ? '<span class="etg-eyebrow etg-eyebrow--sm">' + esc(r.eyebrow) + '</span>' : '') +
+        '<span class="etg-menu__ep-title">' + esc(r.title) + '</span>' +
+        (r.sub ? '<span class="etg-menu__ep-sub">' + esc(r.sub) + '</span>' : '') +
+        '</a>';
+    });
+    list.innerHTML = html;
+    col.hidden = false;
+  }
+  var menuEpList = header.querySelector('[data-menu-eplist]');
+  if (menuEpList) menuEpList.addEventListener('click', function (e) {
+    var a = e.target.closest('.etg-menu__ep');
+    if (a) track('menu_episode_click', {
+      episode_title: ((a.querySelector('.etg-menu__ep-title') || {}).textContent || '').trim()
+    });
+  });
+
+  /* ---- Episode page: "More episodes" card in the right rail.
+     Same RSS index; the current episode is excluded by pathname so visitors
+     can jump straight to a different episode. Hidden when the feed is
+     unavailable or there is nothing else to link. ---- */
+  function renderMoreEpisodes() {
+    var card = document.querySelector('[data-more-episodes]');
+    var list = document.querySelector('[data-more-episodes-list]');
+    if (!card || !list) return;
+    if (!feedIndex || !feedIndex.length) { card.hidden = true; return; }
+    var here = location.pathname.replace(/\/$/, '');
+    var others = feedIndex.filter(function (r) {
+      var p = (r.url || '').replace(/^https?:\/\/[^/]+/, '').replace(/\/$/, '');
+      return p && p !== here;
+    });
+    if (!others.length) { card.hidden = true; return; }
+    var html = '';
+    others.slice(0, 4).forEach(function (r) {
+      html += '<a class="etg-moreeps__item" href="' + esc(r.url) + '">' +
+        '<span class="etg-moreeps__play">' + PLAY + '</span>' +
+        '<span class="etg-moreeps__body">' +
+        (r.eyebrow ? '<span class="etg-eyebrow etg-eyebrow--sm">' + esc(r.eyebrow) + '</span>' : '') +
+        '<span class="etg-moreeps__title">' + esc(r.title) + '</span>' +
+        '</span></a>';
+    });
+    list.innerHTML = html;
+    card.hidden = false;
+  }
+  var moreEpsList = document.querySelector('[data-more-episodes-list]');
+  if (moreEpsList) moreEpsList.addEventListener('click', function (e) {
+    var a = e.target.closest('.etg-moreeps__item');
+    if (a) track('sidebar_episode_click', {
+      episode_title: ((a.querySelector('.etg-moreeps__title') || {}).textContent || '').trim()
+    });
+  });
+
+
+  /* ---- Search overlay ---- */
+  var searchInput = header.querySelector('[data-search-input]');
+  var searchClear = header.querySelector('[data-search-clear]');
+  var searchDefault = header.querySelector('[data-search-default]');
+  var searchResults = header.querySelector('[data-search-results]');
+  var pagesIndex = [
+    { title: 'All episodes', sub: 'Browse and filter every episode', hay: 'episodes archive season browse search', url: CFG.archiveUrl },
+    { title: 'About the show', sub: 'The premise, the truck, and host Tanner Foust', hay: 'about show host tanner foust truck tailgate premise chevron podcast', url: CFG.aboutUrl },
+    { title: 'Where to listen', sub: 'YouTube, Spotify, Apple Podcasts, RSS', hay: 'listen subscribe platforms youtube spotify apple podcasts rss feed', url: null }
+  ];
+  function esc(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+  var PLAY = '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>';
+  var ARROW = '<svg class="etg-search__hit-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>';
+  var lastCounts = { eps: 0, pages: 0 };
+  var lastTrackedQ = '';
+  var trackOverlaySearch = debounce(function () {
+    var q = (searchInput.value || '').trim();
+    if (!q || q === lastTrackedQ) return;
+    lastTrackedQ = q;
+    track('search', { search_term: q, search_location: 'overlay', zero_results: (lastCounts.eps + lastCounts.pages) === 0 });
+  }, 900);
+  function renderSearch() {
+    var q = (searchInput.value || '').trim().toLowerCase();
+    searchClear.hidden = !q;
+    searchDefault.hidden = !!q;
+    searchResults.hidden = !q;
+    if (!q) { searchResults.innerHTML = ''; return; }
+    var toks = q.split(/\s+/).filter(Boolean);
+    var hit = function (hay) { return toks.every(function (t) { return hay.indexOf(t) !== -1; }); };
+    var eps = (feedIndex || []).filter(function (r) { return hit(r.haystack); });
+    var pages = pagesIndex.filter(function (r) { return hit((r.title + ' ' + r.sub + ' ' + r.hay).toLowerCase()); });
+    lastCounts = { eps: eps.length, pages: pages.length };
+    var html = '';
+    if (eps.length) {
+      html += '<div class="etg-search__group"><span class="etg-eyebrow">Episodes</span><span class="etg-search__count">' + eps.length + (eps.length === 1 ? ' match' : ' matches') + '</span></div>';
+      eps.forEach(function (r) {
+        html += '<a class="etg-search__hit" href="' + esc(r.url) + '"><span class="etg-search__hit-play">' + PLAY + '</span>' +
+          '<span class="etg-search__hit-body"><span class="etg-eyebrow etg-eyebrow--sm">' + esc(r.eyebrow) + '</span>' +
+          '<span class="etg-search__hit-title">' + esc(r.title) + '</span>' +
+          (r.sub ? '<span class="etg-search__hit-sub">' + esc(r.sub) + '</span>' : '') + '</span>' + ARROW + '</a>';
+      });
+    }
+    if (pages.length) {
+      html += '<div class="etg-search__group" style="padding-top:20px"><span class="etg-eyebrow">Pages</span></div>';
+      pages.forEach(function (r) {
+        var attrs = r.url ? 'href="' + esc(r.url) + '"' : 'href="#" data-menu-toggle="listen"';
+        html += '<a class="etg-search__hit" ' + attrs + '><span class="etg-search__hit-body">' +
+          '<span class="etg-search__hit-title" style="font-size:16px">' + esc(r.title) + '</span>' +
+          '<span class="etg-search__hit-sub">' + esc(r.sub) + '</span></span>' + ARROW + '</a>';
+      });
+    }
+    if (!eps.length && !pages.length) {
+      html = '<div class="etg-search__none"><div class="etg-search__none-title">No results for &ldquo;' + esc(searchInput.value.trim()) + '&rdquo;</div>' +
+        '<div class="etg-search__none-sub">Check the spelling, or try a guest name, topic, or episode title.</div>' +
+        '<a class="etg-btn etg-btn--ghost" href="' + esc(CFG.archiveUrl) + '">Browse all episodes</a></div>';
+    } else if (eps.length) {
+      html += '<div class="etg-search__all"><a class="etg-textlink" href="' + esc(CFG.archiveUrl) + '?q=' + encodeURIComponent(searchInput.value.trim()) + '">See all results on the episodes page ' + ARROW.replace('class="etg-search__hit-arrow" ', '') + '</a></div>';
+    }
+    searchResults.innerHTML = html;
+  }
+  if (searchInput) {
+    searchInput.addEventListener('input', function () { loadFeed().then(renderSearch); renderSearch(); trackOverlaySearch(); });
+    searchInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && searchInput.value.trim()) location.href = CFG.archiveUrl + '?q=' + encodeURIComponent(searchInput.value.trim());
+    });
+    searchClear.addEventListener('click', function () { searchInput.value = ''; renderSearch(); searchInput.focus(); });
+    searchResults.addEventListener('click', function (e) {
+      var hitEl = e.target.closest('.etg-search__hit');
+      if (hitEl) track('search_result_click', {
+        search_term: (searchInput.value || '').trim(),
+        result_title: ((hitEl.querySelector('.etg-search__hit-title') || {}).textContent || '').trim()
+      });
+    });
+  }
+
+  /* ---- Archive page: query + topic filtering ---- */
+  var archive = document.querySelector('[data-etg-archive]');
+  if (archive) {
+    var rows = Array.prototype.slice.call(archive.querySelectorAll('[data-etg-row]'));
+    var input = archive.querySelector('[data-archive-search]');
+    var chips = Array.prototype.slice.call(archive.querySelectorAll('[data-topic-chip]'));
+    var countEl = archive.querySelector('[data-archive-count]');
+    var noResults = archive.querySelector('[data-archive-noresults]');
+    var pagination = archive.querySelector('[data-archive-pagination]');
+    var state = { q: '', topic: 'All' };
+    /* Topic chips depend on episode keywords (set per episode in Podigee).
+       If no row carries a topic, hide the chips and ignore ?topic= deep links. */
+    var anyTopics = rows.some(function (r) { return (r.getAttribute('data-topic') || '').trim(); });
+    var chipsWrap = archive.querySelector('.etg-chips');
+    if (!anyTopics && chipsWrap) chipsWrap.hidden = true;
+    function applyFilters() {
+      var q = state.q.trim().toLowerCase();
+      var shown = 0;
+      rows.forEach(function (row) {
+        var hay = (row.getAttribute('data-search') || '').toLowerCase();
+        var topic = row.getAttribute('data-topic') || '';
+        var ok = (state.topic === 'All' || topic.toLowerCase().indexOf(state.topic.toLowerCase()) !== -1) && (!q || hay.indexOf(q) !== -1);
+        row.hidden = !ok;
+        if (ok) shown++;
+      });
+      chips.forEach(function (c) { c.classList.toggle('is-active', c.getAttribute('data-topic-chip') === state.topic); });
+      if (noResults) noResults.hidden = shown !== 0;
+      if (pagination) pagination.hidden = shown === 0;
+      if (countEl) {
+        countEl.textContent = (state.topic === 'All' && !q)
+          ? rows.length + (rows.length === 1 ? ' episode' : ' episodes')
+          : shown + (shown === 1 ? ' episode' : ' episodes');
+      }
+    }
+    var trackArchiveSearch = debounce(function () {
+      var q = state.q.trim();
+      if (!q) return;
+      var shown = rows.filter(function (r) { return !r.hidden; }).length;
+      track('search', { search_term: q, search_location: 'archive', zero_results: shown === 0 });
+    }, 900);
+    if (input) input.addEventListener('input', function () { state.q = input.value; applyFilters(); trackArchiveSearch(); });
+    chips.forEach(function (c) {
+      c.addEventListener('click', function () {
+        state.topic = c.getAttribute('data-topic-chip');
+        applyFilters();
+        track('filter_topic', { topic: state.topic });
+      });
+    });
+    var clearBtn = archive.querySelector('[data-archive-clear]');
+    if (clearBtn) clearBtn.addEventListener('click', function () {
+      state.q = ''; state.topic = 'All';
+      if (input) input.value = '';
+      applyFilters();
+    });
+    var sp = new URLSearchParams(location.search);
+    var q0 = sp.get('q'), t0 = sp.get('topic');
+    if (q0) { state.q = q0; if (input) input.value = q0; }
+    if (anyTopics && t0 && CFG.topics.indexOf(t0) !== -1) state.topic = t0;
+    applyFilters();
+  }
+
+  /* ---- Episode page: copy link ---- */
+  var copyBtn = document.querySelector('[data-copy-link]');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', function () {
+      var url = copyBtn.getAttribute('data-copy-link') || location.href;
+      track('share', { method: 'copy_link', content_id: url });
+      var done = function () {
+        var label = copyBtn.querySelector('[data-copy-label]');
+        if (label) { label.textContent = 'Copied'; setTimeout(function () { label.textContent = 'Copy link'; }, 2000); }
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done).catch(done);
+      else done();
+    });
+  }
+
+  /* Share clicks (X / LinkedIn / Facebook buttons on episode pages) */
+  document.addEventListener('click', function (e) {
+    var s = e.target.closest('[data-share]');
+    if (s) track('share', { method: s.getAttribute('data-share'), content_id: location.href });
+  });
+})();
+</script>

@@ -1,35 +1,92 @@
+<div data-etg-home>
+
 {% if blog.announcement != blank %}
-  <div class="announcement">
-    {{blog.announcement}}
-  </div>
+  <div class="etg-announcement"><div class="etg-announcement__inner">{{blog.announcement}}</div></div>
 {% endif %}
 
+<section class="etg-hero">
+  {% if blog.header_image != blank %}
+    <img class="etg-hero__media" src="{{blog.header_image}}" alt="">
+  {% endif %}
+  <div class="etg-hero__scrim"></div>
+  <div class="etg-hero__inner">
+    <div class="etg-hero__content">
+      <div class="etg-eyebrow etg-eyebrow--reverse">A Chevron podcast</div>
+      <h1 class="etg-hero__title">Straight talk on energy.</h1>
+      <div class="etg-hero__lede">{% if podcast.description != blank %}{{podcast.description}}{% else %}<p>Welcome to The Energy Tailgate, a podcast from Chevron hosted by race car driver, stunt driver and TV host Tanner Foust. Each episode takes place on the tailgate of a pickup truck, where guests join Tanner for real conversations about the energy that powers everyday life: how we use it, where it comes from and where it's headed.</p><p>No jargon. No lectures. Just straight talk with the people closest to the work, sharing stories and insights.</p>{% endif %}</div>
+    </div>
+  </div>
+</section>
+
 {% for episode in episodes %}
-  <article class="post card">
-    <header>
-      <div class="post-eyebrow">
-        {% if episode.subtitle != blank %}
-          <span class="eyebrow-tag">{{episode.subtitle}}</span>
-        {% endif %}
-        <time class="post-date">{{episode.published_at | date: "%B %d, %Y"}}</time>
-      </div>
-      <h2 class="post-heading">
-        <a href="{{episode.url}}">{{episode.title}}</a>
-      </h2>
-    </header>
-    <div class="post-media-player">
-      {{episode.player}}
+  {% if forloop.first %}
+    <div class="etg-docked" id="latest">
+      <article class="etg-docked__card">
+        <a class="etg-docked__thumb" href="{{episode.url}}" aria-label="Play {{episode.title}}">
+          {% if episode.cover_image_url != blank %}
+            <img src="{{episode.cover_image_url}}" alt="">
+          {% endif %}
+          <span class="etg-docked__play"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></span>
+        </a>
+        <div class="etg-docked__body">
+          <div class="etg-eyebrow">Latest{% if episode.number %} &middot; Episode {{episode.number}}{% endif %}</div>
+          <h2 class="etg-docked__title"><a href="{{episode.url}}">{{episode.title}}</a></h2>
+          <div class="etg-docked__meta">{% if episode.subtitle != blank %}{{episode.subtitle}}{% endif %}{% if episode.subtitle != blank and episode.published_at %} &middot; {% endif %}{% if episode.published_at %}{{episode.published_at | date: "%B %Y"}}{% endif %}</div>
+          <div class="etg-docked__desc">{{episode.description | strip_html | truncate: 220}}</div>
+          <div class="etg-docked__actions">
+            <a class="etg-btn" href="{{episode.url}}">Play episode</a>
+            <a class="etg-textlink" href="https://www.youtube.com/chevron">Watch on YouTube
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+          </div>
+        </div>
+      </article>
     </div>
-    <div class="post-description">
-      {{episode.description}}
-    </div>
-    <div class="post-actions">
-      <a class="read-more" href="{{episode.url}}">{{'show_notes' | t}} &rarr;</a>
-    </div>
-  </article>
+  {% endif %}
 {% endfor %}
 
-<div class="pagination">
-  {{ pagination.previous_page }}
-  {{ pagination.next_page }}
+<section class="etg-section">
+  <div class="etg-section__head">
+    <h2 class="etg-section__title">More episodes</h2>
+    <a class="etg-textlink" data-link="archiveUrl" href="{{blog.links.archive}}">All episodes
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+  </div>
+  {% for episode in episodes %}
+    {% unless forloop.first %}
+      <article class="etg-row">
+        <a class="etg-row__thumb" href="{{episode.url}}" aria-label="Play {{episode.title}}">
+          {% if episode.cover_image_url != blank %}
+            <img src="{{episode.cover_image_url}}" alt="">
+          {% endif %}
+        </a>
+        <div class="etg-row__body">
+          <div class="etg-eyebrow etg-eyebrow--sm">{% if episode.number %}Episode {{episode.number}}{% endif %}{% if episode.number and episode.published_at %} &middot; {% endif %}{% if episode.published_at %}{{episode.published_at | date: "%B %Y"}}{% endif %}</div>
+          <h3 class="etg-row__title"><a href="{{episode.url}}">{{episode.title}}</a></h3>
+          <div class="etg-row__desc">{{episode.description | strip_html | truncate: 240}}</div>
+          {% if episode.subtitle != blank %}<div class="etg-row__meta">{{episode.subtitle}}</div>{% endif %}
+        </div>
+        <a class="etg-play-circle" href="{{episode.url}}" aria-label="Play {{episode.title}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></a>
+      </article>
+    {% endunless %}
+  {% endfor %}
+  <div class="etg-pagination">
+    {{ pagination.previous_page }}
+    {{ pagination.next_page }}
+  </div>
+</section>
+
+<section class="etg-listenband" id="listen">
+  <div class="etg-listenband__inner">
+    <div class="etg-listenband__copy">
+      <h3 class="etg-listenband__title">Where to listen</h3>
+      <div class="etg-listenband__sub">New episodes on YouTube and all major podcast platforms.</div>
+    </div>
+    <div class="etg-listenband__links">
+      <a class="etg-platform" href="https://www.youtube.com/chevron"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"></path><path d="m10 15 5-3-5-3z"></path></svg>YouTube</a>
+      <a class="etg-platform" href="https://open.spotify.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 10v3"></path><path d="M6 6v11"></path><path d="M10 3v18"></path><path d="M14 8v7"></path><path d="M18 5v13"></path><path d="M22 10v3"></path></svg>Spotify</a>
+      <a class="etg-platform" href="https://podcasts.apple.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="22"></line></svg>Apple Podcasts</a>
+      <a class="etg-platform" data-feed-link href="{{podcast.feeds.mp3}}" rel="alternate" target="_blank"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg>RSS feed</a>
+    </div>
+  </div>
+</section>
+
 </div>
