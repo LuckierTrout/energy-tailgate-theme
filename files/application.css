@@ -248,7 +248,7 @@ button { font-family: inherit; }
 .etg-titleband__sub { font-size: 17px; color: rgba(255, 255, 255, 0.85); }
 .etg-episode { max-width: var(--maxw); margin: -160px auto 0; padding: 0 32px; position: relative; z-index: 5; display: flex; gap: 32px; align-items: flex-start; }
 .etg-episode__main { flex: 1; min-width: 0; }
-.etg-episode__player { background: #000; box-shadow: var(--shadow-card); }
+.etg-episode__player { background: #fff; box-shadow: var(--shadow-card); }
 .etg-episode__player iframe { display: block; width: 100%; }
 .etg-episode__about { padding: 40px 0 8px; }
 .etg-episode__about h2 { font-family: var(--font-display); font-weight: 700; font-size: 26px; margin: 0 0 16px; }
@@ -363,4 +363,80 @@ button { font-family: inherit; }
   .etg-pagehero__title { font-size: 36px; }
   .etg-footer__cols { margin-left: 0; }
   .etg-search__default { flex-direction: column; gap: 28px; }
+}
+
+/* The scrim is a fixed, full-viewport dimmer at z-index:-1. Give the dropdown
+   panels an explicit layer above it so clicks land on panel content rather than
+   being absorbed by the scrim and closing the menu. */
+.etg-panel { z-index: 1; }
+
+/* ==========================================================================
+   Small screens.
+   The theme originally had a single 960px breakpoint, so below roughly 640px
+   the header lockup crowded out the Subscribe button and headlines stayed at
+   desktop sizes. This adds the missing tier.
+   ========================================================================== */
+@media (max-width: 640px) {
+  .etg-utility { padding: 7px 16px; font-size: 11px; }
+
+  .etg-nav { padding: 10px 16px; gap: 12px; }
+  .etg-lockup { gap: 10px; }
+  .etg-lockup__logo { height: 28px; }
+  .etg-lockup__rule { height: 22px; }
+  .etg-lockup__eyebrow { font-size: 8px; letter-spacing: 0.22em; }
+  .etg-lockup__name { font-size: 15px; }
+  .etg-nav__links { gap: 18px; }
+  .etg-nav__link { font-size: 13px; }
+  .etg-nav__right .etg-btn { padding: 9px 14px; font-size: 11px; }
+
+  /* Dropdown panels become full-width stacked lists rather than columns. */
+  .etg-menu { padding: 20px 16px; gap: 24px; }
+  .etg-menu__col--episodes { width: 100%; }
+  .etg-listen { padding: 18px 16px; gap: 12px; }
+  .etg-listen__show { margin-right: 0; }
+
+  /* Type scale */
+  .etg-hero__title { font-size: 34px; }
+  .etg-hero__inner { padding: 48px 16px 96px; }
+  .etg-titleband__title { font-size: 28px; }
+  .etg-titleband__inner { padding: 24px 16px 150px; }
+  .etg-breadcrumb { padding: 16px 16px 0; }
+  .etg-pagehero__title { font-size: 30px; }
+  .etg-pagehero__inner { padding: 48px 16px; }
+  .etg-archive-head__title { font-size: 30px; }
+  .etg-section__title { font-size: 24px; }
+  .etg-ctaband__title { font-size: 28px; }
+
+  /* Layout */
+  .etg-episode { margin-top: -130px; padding: 0 16px; gap: 20px; }
+  .etg-docked { margin-top: -64px; padding: 0 16px; }
+  .etg-section, .etg-archive-head, .etg-archive-list, .etg-upnext, .etg-about {
+    padding-left: 16px; padding-right: 16px;
+  }
+  .etg-filters { gap: 12px; }
+  .etg-filters__search { width: 100%; }
+  .etg-footer__inner { padding: 40px 16px 20px; }
+  .etg-footer__top { gap: 28px; }
+  .etg-footer__cols { gap: 28px; }
+
+  /* Episode rows otherwise keep thumb + body + play circle on one line, which
+     squeezes the text column to ~190px and makes rows enormously tall. Drop the
+     redundant play circle (thumb and title already link through) and clamp the
+     excerpt. */
+  .etg-row { flex-wrap: nowrap; align-items: flex-start; gap: 14px; padding: 20px 0; }
+  .etg-row__thumb { width: 64px; height: 64px; }
+  .etg-row__body { flex: 1 1 auto; min-width: 0; }
+  .etg-row .etg-play-circle { display: none; }
+  .etg-row__title { font-size: 18px; }
+  .etg-row__desc {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Docked home card: stack rather than squeeze. */
+  .etg-docked__card { padding: 16px; gap: 18px; }
+  .etg-docked__thumb { max-width: 100%; }
+  .etg-docked__title { font-size: 21px; }
 }

@@ -3,6 +3,38 @@
 Chevron-branded Podigee blog theme for The Energy Tailgate podcast. Compiled from the approved
 hi-fi designs (Home, Episode, All episodes, About) into Podigee Liquid templates.
 
+## Deploying via Podigee's Git import
+
+Podigee can pull this theme straight from a Git repo
+([docs](https://help.podigee.com/article/160-importing-themes-from-git-repos)). Four constraints
+shape how this repo has to be set up:
+
+1. **The repo must be public.** Podigee requires it to be *"publicly readable through an HTTPS
+   URL"* — use the HTTPS clone URL, not SSH. There is no deploy-key or token option.
+2. **Only HTML and CSS inside `files/` are imported.** *"Any other content will be ignored"* —
+   so fonts and images never arrive through the import (see *Fonts* below).
+3. **Hard limit of 50 files.** This theme has 9, so there is plenty of headroom.
+4. **Re-importing wipes the theme first**: *"all the files of the theme will get deleted and
+   replaced by the ones in your repository."* The import is manual — pushing to the repo does
+   not auto-deploy — so anything hand-edited in Podigee's theme editor is lost on the next
+   import. Treat this repo as the source of truth and never edit templates in Podigee directly.
+
+A branch can be chosen at import time (`master` is Podigee's default; this repo uses `main`).
+
+### Before making this repo public
+
+The licensed Gotham fonts were committed in `f9f844b` and remain in git history even if deleted
+in a later commit, so flipping this repository to public would expose the font binaries. Pick
+one of:
+
+- **Publish a fonts-free repo** (recommended): a fresh repo containing only `files/*.html` and
+  `files/application.css`, with no font blobs in its history. Everything in it is markup and CSS
+  that the live site serves publicly anyway, so nothing confidential is exposed.
+- **Purge history** in place (`git filter-repo --path files/fonts --invert-paths`) and force-push
+  before switching visibility.
+- **Skip the Git import** and paste the nine files into Podigee's theme editor by hand. Slower,
+  but the repo stays private. Viable because the theme changes rarely.
+
 ## Files
 
 | File | Purpose |
@@ -99,10 +131,25 @@ player / transcript / keywords`, `pagination`.
 
 ## Fonts (licensed Gotham)
 
-`application.css` references `fonts/Gotham_*.otf` relative to itself. If Podigee's theme
-uploader does not accept the font files alongside `application.css`, host the `fonts/` folder
-on a CDN and search-replace `url('fonts/` with `url('https://your-cdn/fonts/` in the CSS.
-Fallback stack is Helvetica Neue / Arial, so nothing breaks without them.
+`application.css` references `fonts/Gotham_*.otf` relative to itself, which works only if the
+files sit beside the stylesheet in the theme.
+
+**The Git import will not deliver them** — it imports HTML and CSS only. So the fonts need a
+home of their own. In order of preference:
+
+1. **Host them and rewrite one path.** Put the `fonts/` folder on a CDN or Chevron-controlled
+   HTTPS host and search-replace `url('fonts/` with `url('https://your-host/fonts/` in
+   `application.css`. One string, five rules. Serve them with
+   `Access-Control-Allow-Origin` so cross-origin font loading works.
+2. **Upload them in Podigee's theme editor** alongside the imported files, if it accepts
+   non-HTML/CSS assets — undocumented, so confirm with Podigee. Note that a **re-import deletes
+   all theme files**, so they would have to be re-uploaded after every import.
+
+Until one of those is in place the fallback stack (Helvetica Neue / Arial) renders everywhere.
+Nothing breaks; the type is simply not Gotham. Converting the OTFs to WOFF2 first is worth it —
+it cut them from 698 KB to 167 KB, a 76% saving, in the Next.js build.
+
+Whichever route you take, check the Gotham licence covers serving the files from that host.
 
 ## Hand-edited spots to revisit
 
@@ -111,3 +158,22 @@ Fallback stack is Helvetica Neue / Arial, so nothing breaks without them.
   replace with the show's direct listing URLs once live.
 - `files/about.html`: host portrait is a styled placeholder (`data-host-photo`) — replace with a
   hosted image URL when available. Host bio is static copy.
+
+## Carried over from the Payload prototype
+
+A Payload CMS + Next.js build of the same designs was explored and then set aside in favour of
+this theme. Two artefacts from it are worth keeping:
+
+- **Responsive fixes**, already merged into `files/application.css`: a `≤640px` tier the theme
+  previously lacked (the lockup crowded out the Subscribe button below that width), a fix for
+  episode rows that squeezed their text column to ~190px and made rows ~590px tall on phones,
+  and `z-index` on `.etg-panel` so dropdown clicks are not absorbed by the scrim.
+- **A Chevron skin for the Podigee player** (`public/player-theme/` in that project): the stock
+  theme restyled to the design system — compact blue CTA, blue Gotham chapter timecodes,
+  uppercase tab eyebrows. It is applied through Podigee's *Web Player → External theme* setting,
+  which points at hosted `themeCss` / `themeHtml` URLs, so it works with this theme too and has
+  the same hosting requirement as the fonts. Podigee sells that as a "Custom webplayer package",
+  so confirm entitlement first.
+
+The prototype remains on disk at `~/Desktop/energy-tailgate-site` if the editorial requirements
+ever grow into needing a CMS.
