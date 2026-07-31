@@ -44,6 +44,12 @@
   {% endif %}
 {% endfor %}
 
+{% comment %}
+  Only render "More episodes" when there is something other than the latest
+  episode to list. With a single published episode the loop below skips it as
+  forloop.first, leaving a heading over an empty block.
+{% endcomment %}
+{% if episodes.size > 1 %}
 <section class="etg-section">
   <div class="etg-section__head">
     <h2 class="etg-section__title">More episodes</h2>
@@ -73,6 +79,7 @@
     {{ pagination.next_page }}
   </div>
 </section>
+{% endif %}
 
 <section class="etg-listenband" id="listen">
   <div class="etg-listenband__inner">
