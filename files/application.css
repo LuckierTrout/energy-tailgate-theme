@@ -1,15 +1,34 @@
 /* ==========================================================================
    The Energy Tailgate — Chevron-branded Podigee theme
    Gotham (licensed, self-hosted) · Chevron Design System colors
-   Fonts: keep the fonts/ folder next to this file, or search-replace
-   "fonts/" with your CDN base URL (see README.md).
+   ==========================================================================
+
+   FONTS — the five Gotham cuts are NOT in this repository. Podigee's Git
+   import only takes HTML and CSS, and the repo is public, so the licensed
+   binaries are deliberately kept out of it.
+
+   The paths below are relative, which works if the fonts sit beside this
+   stylesheet in the theme. To serve them from a Chevron host or CDN instead,
+   repoint all five with one substitution:
+
+       sed -i '' "s|url('fonts/|url('https://your-host/fonts/|g" application.css
+
+   Whichever host you choose must send `Access-Control-Allow-Origin` if it is a
+   different origin from the blog — browsers silently refuse cross-origin fonts
+   without it, and fall back to Arial. (That is exactly why chevron.com's own
+   Gotham files can't be reused: they serve 200 cross-site but send no CORS
+   header.)
+
+   WOFF2, converted from the licensed OTFs: 698 KB -> 167 KB, 76% smaller.
+   Without these files everything falls back to Helvetica Neue / Arial —
+   nothing breaks, the display type simply isn't Gotham.
    ========================================================================== */
 
-@font-face { font-family: 'Gotham'; src: url('fonts/Gotham_Book.otf') format('opentype'); font-weight: 400; font-style: normal; font-display: swap; }
-@font-face { font-family: 'Gotham'; src: url('fonts/Gotham_Medium.otf') format('opentype'); font-weight: 500; font-style: normal; font-display: swap; }
-@font-face { font-family: 'Gotham'; src: url('fonts/Gotham_Bold.otf') format('opentype'); font-weight: 700; font-style: normal; font-display: swap; }
-@font-face { font-family: 'Gotham'; src: url('fonts/Gotham_Black.otf') format('opentype'); font-weight: 800 900; font-style: normal; font-display: swap; }
-@font-face { font-family: 'Gotham Narrow'; src: url('fonts/Gotham_Narrow_Bold.otf') format('opentype'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Gotham'; src: url('fonts/Gotham_Book.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Gotham'; src: url('fonts/Gotham_Medium.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Gotham'; src: url('fonts/Gotham_Bold.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Gotham'; src: url('fonts/Gotham_Black.woff2') format('woff2'); font-weight: 800 900; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Gotham Narrow'; src: url('fonts/Gotham_Narrow_Bold.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
 
 :root {
   --chv-dark-blue: #0B2D71;

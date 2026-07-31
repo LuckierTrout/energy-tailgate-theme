@@ -1,0 +1,5 @@
+
+# Licensed Gotham is hosted separately, never committed (repo is public).
+files/fonts/
+*.otf
+*.woff2

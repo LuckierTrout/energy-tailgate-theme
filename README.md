@@ -46,7 +46,8 @@ one of:
 | `files/about.html` | About: dark-blue hero, premise + host card, three-up strip, CTA band |
 | `files/imprint.html`, `files/privacy.html` | Legal pages |
 | `files/application.css` | Full stylesheet: Chevron tokens, Gotham @font-face, all components |
-| `files/fonts/` | Licensed Gotham cuts (Book, Medium, Bold, Black, Narrow Bold) |
+
+The licensed Gotham files are **not** in this repo — see *Fonts* below.
 
 ## How dynamic features work
 
@@ -131,25 +132,38 @@ player / transcript / keywords`, `pagination`.
 
 ## Fonts (licensed Gotham)
 
-`application.css` references `fonts/Gotham_*.otf` relative to itself, which works only if the
-files sit beside the stylesheet in the theme.
+The five Gotham cuts are **deliberately not in this repository**. Podigee's Git import only
+takes HTML and CSS, so they could never arrive that way — and this repo is public, so shipping
+licensed binaries in it would expose them.
 
-**The Git import will not deliver them** — it imports HTML and CSS only. So the fonts need a
-home of their own. In order of preference:
+`application.css` declares them as WOFF2 at a relative `fonts/` path, which resolves if the
+files sit beside the stylesheet in the theme. To serve them from a Chevron host or CDN instead,
+one substitution repoints all five:
 
-1. **Host them and rewrite one path.** Put the `fonts/` folder on a CDN or Chevron-controlled
-   HTTPS host and search-replace `url('fonts/` with `url('https://your-host/fonts/` in
-   `application.css`. One string, five rules. Serve them with
-   `Access-Control-Allow-Origin` so cross-origin font loading works.
-2. **Upload them in Podigee's theme editor** alongside the imported files, if it accepts
-   non-HTML/CSS assets — undocumented, so confirm with Podigee. Note that a **re-import deletes
-   all theme files**, so they would have to be re-uploaded after every import.
+```
+sed -i '' "s|url('fonts/|url('https://your-host/fonts/|g" files/application.css
+```
 
-Until one of those is in place the fallback stack (Helvetica Neue / Arial) renders everywhere.
-Nothing breaks; the type is simply not Gotham. Converting the OTFs to WOFF2 first is worth it —
-it cut them from 698 KB to 167 KB, a 76% saving, in the Next.js build.
+**If that host is a different origin from the blog it must send
+`Access-Control-Allow-Origin`.** Browsers refuse cross-origin fonts without it and fall back
+silently. This is exactly why chevron.com's own Gotham files cannot be reused: they are
+self-hosted WOFF2 under `/assets/fonts/monospace/` and return 200 even cross-site, but carry no
+CORS header. Reusing them would need chevron.com to add that header — a one-line change on their
+side, and the tidier long-term option if the web team is willing.
 
-Whichever route you take, check the Gotham licence covers serving the files from that host.
+Note chevron.com also has **no Gotham Medium**, which this theme uses at weight 500 for the
+utility bar; point 500 at Book if you ever switch to their file set.
+
+The files to host (WOFF2, converted from the licensed OTFs — 698 KB down to 167 KB):
+
+```
+Gotham_Book.woff2  Gotham_Medium.woff2  Gotham_Bold.woff2
+Gotham_Black.woff2  Gotham_Narrow_Bold.woff2
+```
+
+Until they are hosted, the fallback stack (Helvetica Neue / Arial) renders everywhere. Nothing
+breaks; the display type simply isn't Gotham. Confirm the Gotham licence covers serving them
+from whichever host you pick.
 
 ## Hand-edited spots to revisit
 
