@@ -634,7 +634,10 @@ window.ETG_CONFIG = {
     setMediaPaused(false);
     var destination = document.querySelector('main');
     if (destination) destination.setAttribute('tabindex', '-1');
-    if (destination) destination.focus();
+    if (destination) {
+      try { destination.focus({ preventScroll: true }); }
+      catch (focusError) { destination.focus(); }
+    }
   }
 
   function digest(value) {
