@@ -40,7 +40,7 @@ one of:
 | File | Purpose |
 |---|---|
 | `files/layout.html` | Shared chrome: green utility bar, two-tier Chevron header (inline logo SVG + stacked wordmark), Episodes / Where-to-Listen / Search dropdown panels, dark-blue footer, all theme JavaScript |
-| `files/index.html` | Home: hero with scrim, docked latest-episode card, More-episodes rows, Where-to-listen band |
+| `files/index.html` | Home: cinematic Chevron-hosted video hero, parallax motion control, docked Podigee latest-episode player, More-episodes rows, Where-to-listen band |
 | `files/show.html` | Episode detail: breadcrumb, dark-blue title band, docked player, show notes, Listen-on + Share cards (no MP3 download button, per decision) |
 | `files/archive.html` | All episodes: live search + topic-chip filtering, season list, pagination |
 | `files/about.html` | About: dark-blue hero, premise + host card, three-up strip, CTA band |
@@ -51,6 +51,10 @@ The licensed Gotham files are **not** in this repo — see *Fonts* below.
 
 ## How dynamic features work
 
+- **Homepage player**: `episode.player` is not available in Podigee's `index.html`, so the
+  latest episode is rendered with Podigee's documented iframe endpoint at
+  `{{episode.url}}/embed`. This preserves the native player, analytics delivery, and current
+  episode data while allowing the player to sit in the cinematic dock.
 - **Search overlay** (all pages): does **not** use `podcast.search_box` (that renders Podigee's
   own sidebar widget). Instead it fetches the podcast's RSS feed (`podcast.feeds.mp3`, falling
   back to the blog-relative `/feed/mp3`) client-side and searches title, guest line, description,
@@ -116,6 +120,18 @@ silent no-op, so the theme is safe to ship before analytics is installed. Events
 - `sidebar_episode_click` — an episode chosen in the episode page's "More episodes" card. Param: `episode_title`.
 - `filter_topic` — a topic chip selected on the archive. Param: `topic`.
 - `share` — X / LinkedIn / Facebook / copy-link on episode pages. Params: `method`, `content_id`.
+
+## Preview gate
+
+The theme currently includes a shared-password preview gate in `layout.html`, so it covers every
+blog route. Successful access is remembered in `sessionStorage` for that browser tab session;
+adding `?lock=1` clears the session and forces the gate for testing. Background video and audio are
+paused while the gate is locked.
+
+This is intentionally a **client-side review deterrent**, not server-side authentication. The
+repository is public by requirement, so a determined visitor can inspect or bypass the gate. Use
+Podigee's protected-podcast features or an authenticated hosting layer if access control becomes a
+production requirement.
 
 Enter in the overlay navigates to `/archive?q=…`; GA4 Enhanced Measurement captures that
 automatically as `view_search_results` (`q` is a default site-search param — add `topic` to the

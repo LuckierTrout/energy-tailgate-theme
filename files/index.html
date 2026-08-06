@@ -1,56 +1,48 @@
-<div data-etg-home>
+<div data-etg-home data-etg-cinematic-home>
 
 {% if blog.announcement != blank %}
   <div class="etg-announcement"><div class="etg-announcement__inner">{{blog.announcement}}</div></div>
 {% endif %}
 
-<section class="etg-hero">
-  {% if blog.header_image != blank %}
-    <img class="etg-hero__media" src="{{blog.header_image}}" alt="">
-  {% endif %}
-  <div class="etg-hero__scrim"></div>
-  <div class="etg-hero__inner">
-    <div class="etg-hero__content">
-      <div class="etg-eyebrow etg-eyebrow--reverse">A Chevron podcast</div>
-      <h1 class="etg-hero__title">Straight talk on energy.</h1>
-      <div class="etg-hero__lede">{% if podcast.description != blank %}{{podcast.description}}{% else %}<p>Welcome to The Energy Tailgate, a podcast from Chevron hosted by race car driver, stunt driver and TV host Tanner Foust. Each episode takes place on the tailgate of a pickup truck, where guests join Tanner for real conversations about the energy that powers everyday life: how we use it, where it comes from and where it's headed.</p><p>No jargon. No lectures. Just straight talk with the people closest to the work, sharing stories and insights.</p>{% endif %}</div>
+<section class="etg-cinematic" data-cinematic-hero>
+  <div class="etg-cinematic__media-wrap" data-cinematic-media>
+    <video class="etg-cinematic__media" data-cinematic-video autoplay muted loop playsinline
+      poster="https://www.chevron.com/-/media/chevron/newsroom/2026/Q2/01b-energy-podcast.jpg">
+      <source src="https://www.chevron.com/-/media/chevron/homepage/videos/02c-The-energy-tailgate-podcast.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="etg-cinematic__scrim"></div>
+  <button class="etg-cinematic__motion" type="button" data-cinematic-motion>Pause motion</button>
+
+  <div class="etg-cinematic__inner">
+    <div class="etg-cinematic__copy">
+      <p class="etg-eyebrow etg-eyebrow--reverse">A Chevron podcast</p>
+      <h1 class="etg-cinematic__title">Energy <span>from the tailgate</span></h1>
+      <p class="etg-cinematic__lede">Real conversations about the energy behind everyday life, with host Tanner Foust and the people closest to the work.</p>
     </div>
   </div>
+
+  {% for episode in episodes %}
+    {% if forloop.first %}
+      <article class="etg-cinematic-player" id="latest">
+        <div class="etg-cinematic-player__meta">
+          <div class="etg-cinematic-player__label">Latest episode</div>
+          <h2 class="etg-cinematic-player__title"><a href="{{episode.url}}">{{episode.title}}</a></h2>
+          {% if episode.subtitle != blank %}<div class="etg-cinematic-player__guest">{{episode.subtitle}}</div>{% endif %}
+        </div>
+        <div class="etg-cinematic-player__embed">
+          <iframe class="podigee-podcast-player" src="{{episode.url}}/embed" title="Play {{episode.title}}" loading="lazy" allow="autoplay"></iframe>
+        </div>
+        <a class="etg-cinematic-player__details" href="{{episode.url}}">Episode details
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </a>
+      </article>
+    {% endif %}
+  {% endfor %}
 </section>
 
-{% for episode in episodes %}
-  {% if forloop.first %}
-    <div class="etg-docked" id="latest">
-      <article class="etg-docked__card">
-        <a class="etg-docked__thumb" href="{{episode.url}}" aria-label="Play {{episode.title}}">
-          {% if episode.cover_image_url != blank %}
-            <img src="{{episode.cover_image_url}}" alt="">
-          {% endif %}
-          <span class="etg-docked__play"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></span>
-        </a>
-        <div class="etg-docked__body">
-          <div class="etg-eyebrow">Latest{% if episode.number %} &middot; Episode {{episode.number}}{% endif %}</div>
-          <h2 class="etg-docked__title"><a href="{{episode.url}}">{{episode.title}}</a></h2>
-          <div class="etg-docked__meta">{% if episode.subtitle != blank %}{{episode.subtitle}}{% endif %}{% if episode.subtitle != blank and episode.published_at %} &middot; {% endif %}{% if episode.published_at %}{{episode.published_at | date: "%B %Y"}}{% endif %}</div>
-          <div class="etg-docked__desc">{{episode.description | strip_html | truncate: 220}}</div>
-          <div class="etg-docked__actions">
-            <a class="etg-btn" href="{{episode.url}}">Play episode</a>
-            <a class="etg-textlink" href="https://www.youtube.com/chevron">Watch on YouTube
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
-          </div>
-        </div>
-      </article>
-    </div>
-  {% endif %}
-{% endfor %}
-
-{% comment %}
-  Only render "More episodes" when there is something other than the latest
-  episode to list. With a single published episode the loop below skips it as
-  forloop.first, leaving a heading over an empty block.
-{% endcomment %}
 {% if episodes.size > 1 %}
-<section class="etg-section">
+<section class="etg-section etg-cinematic-lower" id="episodes">
   <div class="etg-section__head">
     <h2 class="etg-section__title">More episodes</h2>
     <a class="etg-textlink" data-link="archiveUrl" href="{{blog.links.archive}}">All episodes
@@ -60,12 +52,10 @@
     {% unless forloop.first %}
       <article class="etg-row">
         <a class="etg-row__thumb" href="{{episode.url}}" aria-label="Play {{episode.title}}">
-          {% if episode.cover_image_url != blank %}
-            <img src="{{episode.cover_image_url}}" alt="">
-          {% endif %}
+          {% if episode.cover_image_url != blank %}<img src="{{episode.cover_image_url}}" alt="">{% endif %}
         </a>
         <div class="etg-row__body">
-          <div class="etg-eyebrow etg-eyebrow--sm">{% if episode.number %}Episode {{episode.number}}{% endif %}{% if episode.number and episode.published_at %} &middot; {% endif %}{% if episode.published_at %}{{episode.published_at | date: "%B %Y"}}{% endif %}</div>
+          <div class="etg-eyebrow etg-eyebrow--sm">From the tailgate</div>
           <h3 class="etg-row__title"><a href="{{episode.url}}">{{episode.title}}</a></h3>
           <div class="etg-row__desc">{{episode.description | strip_html | truncate: 240}}</div>
           {% if episode.subtitle != blank %}<div class="etg-row__meta">{{episode.subtitle}}</div>{% endif %}
@@ -97,3 +87,37 @@
 </section>
 
 </div>
+
+<script>
+(function () {
+  var hero = document.querySelector('[data-cinematic-hero]');
+  if (!hero) return;
+  var video = hero.querySelector('[data-cinematic-video]');
+  var media = hero.querySelector('[data-cinematic-media]');
+  var toggle = hero.querySelector('[data-cinematic-motion]');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function syncMotionLabel() { toggle.textContent = video.paused ? 'Play motion' : 'Pause motion'; }
+  function parallax() {
+    var rect = hero.getBoundingClientRect();
+    var shift = Math.max(-42, Math.min(42, rect.top * -0.07));
+    media.style.setProperty('--etg-parallax-y', shift + 'px');
+  }
+
+  toggle.addEventListener('click', function () {
+    video.muted = true;
+    if (video.paused) video.play().catch(function () {}); else video.pause();
+    syncMotionLabel();
+  });
+  video.addEventListener('play', syncMotionLabel);
+  video.addEventListener('pause', syncMotionLabel);
+
+  if (reduce) {
+    video.pause();
+    syncMotionLabel();
+  } else {
+    window.addEventListener('scroll', parallax, { passive: true });
+    parallax();
+  }
+})();
+</script>

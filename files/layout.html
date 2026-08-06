@@ -1,3 +1,43 @@
+<script>
+(function () {
+  try {
+    if (sessionStorage.getItem('etg_preview_access') !== 'granted' || new URLSearchParams(location.search).get('lock') === '1') {
+      document.documentElement.classList.add('preview-locked');
+    }
+  } catch (error) {
+    document.documentElement.classList.add('preview-locked');
+  }
+})();
+</script>
+
+<div class="preview-gate" data-preview-gate role="dialog" aria-modal="true" aria-labelledby="preview-gate-title">
+  <div class="preview-gate__image" aria-hidden="true">
+    <div class="preview-gate__image-copy">
+      <p class="preview-gate__eyebrow">Internal podcast preview</p>
+      <p class="preview-gate__image-title">Energy <span>from the tailgate</span></p>
+    </div>
+  </div>
+  <div class="preview-gate__panel">
+    <div class="preview-gate__inner">
+      <div class="preview-gate__brand">
+        <span class="preview-gate__brand-small">A Chevron podcast</span>
+        <span class="preview-gate__brand-name">THE ENERGY TAILGATE</span>
+      </div>
+      <h1 id="preview-gate-title">Enter the preview</h1>
+      <p class="preview-gate__lede">This working concept is available to the project team. Enter the shared preview password to continue.</p>
+      <form data-preview-form novalidate>
+        <label for="preview-password">Preview password</label>
+        <div class="preview-gate__field">
+          <input id="preview-password" data-preview-password type="password" autocomplete="off" required>
+          <button type="submit">Enter preview</button>
+        </div>
+        <p class="preview-gate__error" data-preview-error role="alert"></p>
+      </form>
+      <p class="preview-gate__note">Internal design preview &middot; Access lasts for this browser session only.</p>
+    </div>
+  </div>
+</div>
+
 <header class="etg-header">
   <div class="etg-utility">
     <span class="etg-utility__brand">A podcast from Chevron</span>
@@ -544,6 +584,99 @@ window.ETG_CONFIG = {
   document.addEventListener('click', function (e) {
     var s = e.target.closest('[data-share]');
     if (s) track('share', { method: s.getAttribute('data-share'), content_id: location.href });
+  });
+})();
+</script>
+
+<script>
+(function () {
+  var storageKey = 'etg_preview_access';
+  var expectedHash = '533941eef28c4893d6ba93158b44dcb4dab7682b4c5f8d03d486360171b5a451';
+  var params = new URLSearchParams(location.search);
+  var gate = document.querySelector('[data-preview-gate]');
+  var form = gate && gate.querySelector('[data-preview-form]');
+  var input = gate && gate.querySelector('[data-preview-password]');
+  var error = gate && gate.querySelector('[data-preview-error]');
+
+  if (!gate || !form || !input || !error) return;
+
+  function setMediaPaused(paused) {
+    document.querySelectorAll('video, audio').forEach(function (item) {
+      if (paused) {
+        item.dataset.previewWasPlaying = String(!item.paused);
+        item.pause();
+      } else if (item.dataset.previewWasPlaying === 'true' || item.autoplay) {
+        item.play().catch(function () {});
+      }
+    });
+  }
+
+  function setPageInert(inert) {
+    document.querySelectorAll('header, main, footer').forEach(function (region) {
+      if (inert) region.setAttribute('inert', '');
+      else region.removeAttribute('inert');
+    });
+  }
+
+  function lock() {
+    document.documentElement.classList.add('preview-locked');
+    gate.hidden = false;
+    setPageInert(true);
+    setMediaPaused(true);
+    window.setTimeout(function () { input.focus(); }, 0);
+  }
+
+  function unlock() {
+    try { sessionStorage.setItem(storageKey, 'granted'); } catch (storageError) {}
+    gate.hidden = true;
+    document.documentElement.classList.remove('preview-locked');
+    setPageInert(false);
+    setMediaPaused(false);
+    var destination = document.querySelector('main');
+    if (destination) destination.setAttribute('tabindex', '-1');
+    if (destination) destination.focus();
+  }
+
+  function digest(value) {
+    var bytes = new TextEncoder().encode(value);
+    return crypto.subtle.digest('SHA-256', bytes).then(function (buffer) {
+      return Array.from(new Uint8Array(buffer)).map(function (byte) {
+        return byte.toString(16).padStart(2, '0');
+      }).join('');
+    });
+  }
+
+  if (params.get('lock') === '1') {
+    try { sessionStorage.removeItem(storageKey); } catch (storageError) {}
+  }
+
+  var granted = false;
+  try { granted = sessionStorage.getItem(storageKey) === 'granted'; } catch (storageError) {}
+  if (granted && params.get('lock') !== '1') unlock(); else lock();
+
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    error.textContent = '';
+    if (!input.value) {
+      error.textContent = 'Enter the shared preview password.';
+      input.focus();
+      return;
+    }
+    if (!window.crypto || !window.crypto.subtle) {
+      error.textContent = 'This browser cannot verify the preview password.';
+      return;
+    }
+    digest(input.value).then(function (value) {
+      if (value === expectedHash) {
+        input.value = '';
+        unlock();
+      } else {
+        error.textContent = 'That password does not match. Try again.';
+        input.select();
+      }
+    }).catch(function () {
+      error.textContent = 'The password could not be checked. Try again.';
+    });
   });
 })();
 </script>
